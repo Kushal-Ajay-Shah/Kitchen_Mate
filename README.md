@@ -1,2 +1,3 @@
 # SIMPLE MINDS
 KUSHAL SHAH
+Dhruvi Doshi
