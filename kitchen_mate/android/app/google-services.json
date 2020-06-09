@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "613691063136",
+    "firebase_url": "https://kitchenmate-ed696.firebaseio.com",
+    "project_id": "kitchenmate-ed696",
+    "storage_bucket": "kitchenmate-ed696.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613691063136:android:be095b7954ea7132bdfc05",
+        "android_client_info": {
+          "package_name": "com.example.kitchen_mate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613691063136-t5818rk8v42sq9aebchf0dufruueig5o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArnxu9n4dCuuj86wKXudbvedYcjXubPiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613691063136-t5818rk8v42sq9aebchf0dufruueig5o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
