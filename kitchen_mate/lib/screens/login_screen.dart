@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_mate/components/rounded_button.dart';
+import 'package:kitchen_mate/models/user_email_arg.dart';
 import 'package:kitchen_mate/screens/home_screen.dart';
 import 'package:kitchen_mate/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
+  
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -84,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final user = await _auth.signInWithEmailAndPassword(
                             email: email, password: password);
                         if (user != null) {
-                          Navigator.pushNamed(context, Home.id);
+                          Navigator.pushNamed(context, Home.id,arguments: UserEmail(email:email));
                         } else if (user == null) {
                           error = 'Could not sign in with those credentials';
                         }

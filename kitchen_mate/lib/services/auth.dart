@@ -9,7 +9,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   // create user object based on FirebaseUser
   User _userFromFirebaseUser(FirebaseUser user){
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid,email: user.email) : null;
   } 
   
 
@@ -34,8 +34,8 @@ class AuthService {
   //register with email and password
   Future registerWithEmailAndPassword(String email, String password) async {
     try{
-      AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      FirebaseUser user = result.user;
+      // AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      // FirebaseUser user = result.user;
 
       //create a new document for the user with uid
       // await DatabaseService(uid: user.uid).updateUserData('0', 'new crew member', 100);
