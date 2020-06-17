@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kitchen_mate/screens/meals_planner.dart';
 import 'package:kitchen_mate/screens/shopping_list.dart';
 import 'package:kitchen_mate/components/rounded_button.dart';
 import 'package:kitchen_mate/screens/welcome_screen.dart';
 import '../models/user_email_arg.dart';
+import '../models/user.dart';
 
 FirebaseUser loggedInUser;
 
 class Home extends StatefulWidget {
   static const String id = 'home_screen';
-  final String userEmail;
-  Home.email(this.userEmail);
-  Home(this.userEmail);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -62,6 +61,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
@@ -96,7 +96,7 @@ class _HomeState extends State<Home> {
                   RoundedButton(
                     title: 'Shopping List',
                     onPressed: () {
-                      Navigator.pushNamed(context, ShoppingList.id,arguments: UserEmail(email:widget.userEmail));
+                      Navigator.pushNamed(context, ShoppingList.id,arguments: UserEmail(email:user.email));
                     },
                     colour: Colors.limeAccent[700],
                   ),

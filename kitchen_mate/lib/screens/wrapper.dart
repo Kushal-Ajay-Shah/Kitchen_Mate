@@ -13,7 +13,7 @@ class Wrapper extends StatelessWidget {
     if(user == null){
       return WelcomeScreen();
     }else{
-      return Home.email(user.email);
+      return Home();
     }
   }
 }
