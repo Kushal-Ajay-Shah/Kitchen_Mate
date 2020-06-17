@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_mate/components/rounded_button.dart';
+import 'package:kitchen_mate/models/user_email_arg.dart';
 import 'package:kitchen_mate/screens/home_screen.dart';
 import 'package:kitchen_mate/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             await _auth.createUserWithEmailAndPassword(
                                 email: email, password: password);
                         if (newUser != null) {
-                          Navigator.pushNamed(context, Home.id);
+                          Navigator.pushNamed(context, Home.id,arguments: UserEmail(email: email));
                         } else if (newUser == null) {
                           error = 'Please supply a valid email';
                           setState(() {
