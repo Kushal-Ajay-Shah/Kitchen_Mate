@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
     return StreamProvider<User>.value(
           value: AuthService().user,
           child: MaterialApp(
-            theme: ThemeData(primarySwatch: Colors.lightGreen),
+            theme: ThemeData(primaryColor: Colors.green,
+            accentColor: Colors.lightGreen,
+            ),
           initialRoute: Wrapper.id,
           routes: {
             Wrapper.id: (context) => Wrapper(),

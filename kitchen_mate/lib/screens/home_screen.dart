@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                     //print(loggedInUser.email);
                   }),
             ],
-            title: Text('Kitchen Mate'),
+            title: Text('Kitchen Mate', style: TextStyle(color: Colors.white),),
             backgroundColor: Colors.lightGreen,
             elevation: 0.0,
           ),

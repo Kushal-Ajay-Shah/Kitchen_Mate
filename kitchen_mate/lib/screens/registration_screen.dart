@@ -47,6 +47,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 48.0,
                 ),
                 TextFormField(
+                  cursorColor: Colors.lightGreen,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   validator: (value) => value.isEmpty ? 'Enter an email' : null,
@@ -60,6 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   height: 8.0,
                 ),
                 TextFormField(
+                  cursorColor: Colors.lightGreen,
                   obscureText: true,
                   textAlign: TextAlign.center,
                   validator: (val) =>

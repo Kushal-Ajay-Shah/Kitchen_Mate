@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,10 +11,10 @@ class SubList extends StatefulWidget {
   @override
   _SubListState createState() => _SubListState();
 }
-  
 
 class _SubListState extends State<SubList> {
-  String input='';
+  String input = '';
+  double price = 0.0;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedInUser;
 
@@ -24,6 +23,7 @@ class _SubListState extends State<SubList> {
     super.initState();
     getCurrentUser();
   }
+
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
@@ -37,53 +37,97 @@ class _SubListState extends State<SubList> {
   }
 
   Widget build(BuildContext context) {
-  final ShoppingListNameArg listName=ModalRoute.of(context).settings.arguments;
-    
+    final ShoppingListNameArg listName =
+        ModalRoute.of(context).settings.arguments;
     return StreamProvider<DocumentSnapshot>.value(
-
-          value: DatabaseService.email(email:listName.email,p:listName.tittle).datas,
-          child: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              listName.tittle,
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            backgroundColor: Colors.lime,
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              // print("${widget.tittle}");
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('add Todo here'),
-                      content: TextField(
-                        onChanged: (String value) {
-                          input = value;
-                        },
-                      ),
-                      actions: <Widget>[
-                        FlatButton(
-                            onPressed: () async {
-                              await DatabaseService.email(email:listName.email,p:listName.tittle).updateUserData(itemName: input);
-                              Navigator.of(context).pop();
-                              },
-                            child: Text("ADD"))
-                      ],
-                    );
-                  });
-            },
-            child: Icon(
-              Icons.add,
+      value: DatabaseService.email(email: listName.email, p: listName.tittle)
+          .datas,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            listName.tittle,
+            style: TextStyle(
               color: Colors.white,
             ),
-            backgroundColor: Colors.lightGreen,
           ),
-          body:View(listName),
+          backgroundColor: Colors.lime,
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // print("${widget.tittle}");
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text(
+                      'Add item',
+                      style: TextStyle(color: Colors.lightGreen),
+                    ),
+                    content: Container(
+                      height: 180,
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                                labelText: 'Item',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.lime),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                )),
+                            onChanged: (String value) {
+                              input = value;
+                            },
+                          ),
+                          TextField(
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                                labelText: 'Price',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.lime),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                )),
+                            onChanged: (String val) {
+                              price = double.parse(val);
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                          onPressed: () async {
+                            if (input.isNotEmpty &&
+                                price.toString().isNotEmpty) {
+                              await DatabaseService.email(
+                                      email: listName.email, p: listName.tittle)
+                                  .updateUserData(
+                                      itemName: input,
+                                      isChecked: false,
+                                      price: price);
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: Text(
+                            "ADD",
+                            style: TextStyle(color: Colors.lightGreen),
+                          ))
+                    ],
+                  );
+                });
+          },
+          child: Icon(
+            Icons.add,
+            color: Colors.white,
           ),
+          backgroundColor: Colors.lightGreen,
+        ),
+        body: View(listName),
+      ),
     );
   }
 }

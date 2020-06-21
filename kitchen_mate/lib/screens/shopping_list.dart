@@ -36,10 +36,13 @@ class _ShoppingListState extends State<ShoppingList> {
   // }
 
   Widget build(BuildContext context) {
-    final UserEmail userEmail=ModalRoute.of(context).settings.arguments;
+    final UserEmail userEmail = ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
-          title: Text('My Shopping List',style: TextStyle(color: Colors.white),),
+          title: Text(
+            'My Shopping List',
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.lightGreen,
         ),
         floatingActionButton: FloatingActionButton(
@@ -48,21 +51,37 @@ class _ShoppingListState extends State<ShoppingList> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('add Todo here'),
+                    title: Text(
+                      'Add a list',
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
+                    ),
                     content: TextField(
+                      cursorColor: Colors.lightGreen,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.lime),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.green),
+                        ),
+                      ),
                       onChanged: (String value) {
                         input = value;
                       },
                     ),
                     actions: <Widget>[
                       FlatButton(
-                          onPressed: () async{
-                            await DatabaseService.email(
-                                    email: userEmail.email, p: input)
-                                .updateListNames();
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("ADD"),color: Colors.lime,)
+                        onPressed: () async {
+                          await DatabaseService.email(
+                                  email: userEmail.email, p: input)
+                              .updateListNames();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text("ADD",
+                            style: TextStyle(color: Colors.lightGreen)),
+                      )
                     ],
                   );
                 });
@@ -86,11 +105,10 @@ class _ShoppingListState extends State<ShoppingList> {
                         key: Key(list[index]['tittle']),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              SubList.id,
-                              arguments: ShoppingListNameArg(tittle:list[index]['tittle'],email:userEmail.email )
-                            );
+                            Navigator.pushNamed(context, SubList.id,
+                                arguments: ShoppingListNameArg(
+                                    tittle: list[index]['tittle'],
+                                    email: userEmail.email));
                           },
                           child: Card(
                             child: ListTile(title: Text(list[index]['tittle'])),

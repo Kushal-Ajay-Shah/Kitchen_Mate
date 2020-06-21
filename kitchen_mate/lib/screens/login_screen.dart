@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 48.0,
                 ),
                 TextFormField(
+                  cursorColor: Colors.lightGreen,
                   keyboardType: TextInputType.emailAddress,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
@@ -62,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 8.0,
                 ),
                 TextFormField(
+                  cursorColor: Colors.lightGreen,
                   obscureText: true,
                   textAlign: TextAlign.center,
                   onChanged: (value) {
