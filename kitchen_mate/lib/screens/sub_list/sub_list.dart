@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kitchen_mate/models/list_name.dart';
 import 'package:provider/provider.dart';
 import '../../services/data.dart';
-import './view_sublist.dart';
 
 class SubList extends StatefulWidget {
   static const String id = 'sub_shopping_list';
@@ -108,7 +107,10 @@ class _SubListState extends State<SubList> {
                                   .updateUserData(
                                       itemName: input,
                                       isChecked: false,
-                                      price: price);
+                                      price: price,
+                                      timestamp: DateTime.now(),
+                                      );
+                                      price = 0.0;  
                               Navigator.of(context).pop();
                             }
                           },
@@ -126,7 +128,40 @@ class _SubListState extends State<SubList> {
           ),
           backgroundColor: Colors.lightGreen,
         ),
-        body: View(listName),
+        body: StreamBuilder<QuerySnapshot>(
+            stream:
+                DatabaseService.email(email: listName.email, p: listName.tittle)
+                    .itemList,
+            builder: (context, snapshot) {
+              if (snapshot != null &&
+                  snapshot.data != null &&
+                  snapshot.data.documents != null) {
+                var itemList = snapshot.data.documents;
+                return ListView.builder(
+                    itemCount: itemList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Card(
+                        child: ListTile(
+                          leading: Checkbox(
+                              value: itemList[index]['isChecked'],
+                              onChanged: (value) async {
+                                await DatabaseService.email(
+                                        email: listName.email,
+                                        p: listName.tittle)
+                                    .toggleCheckbox(
+                                  itemName: itemList[index]['itemName'],
+                                  isChecked: itemList[index]['isChecked'],
+                                );
+                              }),
+                          title: Text(itemList[index]['itemName']),
+                          trailing: Text('₹ ${itemList[index]['price']}'),
+                        ),
+                      );
+                    });
+              } else {
+                return Container();
+              }
+            }),
       ),
     );
   }

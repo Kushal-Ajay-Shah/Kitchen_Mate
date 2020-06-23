@@ -4,6 +4,7 @@ class DatabaseService {
   String listHead = '';
   String id;
   CollectionReference userRef;
+  CollectionReference finalRef;
   DatabaseService();
   DatabaseService.email({email, p}) {
     id = email;
@@ -15,44 +16,54 @@ class DatabaseService {
   }
   //sublist
   Future<void> updateUserData(
-      {String itemName, bool isChecked, double price}) async {
-    return await userRef.document(listHead).setData({
-      'boat': FieldValue.arrayUnion([
-        {'itemName': itemName, 'isChecked': isChecked, 'price': price}
-      ]),
-    }, merge: true);
+      {String itemName,
+      bool isChecked,
+      double price,
+      DateTime timestamp}) async {
+    return await userRef
+        .document(listHead)
+        .collection('items')
+        .document(itemName)
+        .setData({
+      'itemName': itemName,
+      'isChecked': isChecked,
+      'price': price,
+      'timestamp': timestamp,
+    });
   }
 
   Stream<DocumentSnapshot> get datas {
     return userRef.document(listHead).snapshots();
   }
 
-  Future<void> deleteItem(
-      {String itemName, bool isChecked, double price}) async {
-    return await userRef.document(listHead).updateData({
-      'boat': FieldValue.arrayRemove([
-        {'itemName': itemName, 'isChecked': isChecked, 'price': price}
-      ]),
-    });
+  Stream<QuerySnapshot> get itemList {
+    return userRef
+        .document(listHead)
+        .collection('items')
+        .orderBy('timestamp')
+        .snapshots();
   }
 
   Future<void> toggleCheckbox(
       {String itemName, bool isChecked, double price}) async {
-    return await userRef.document(listHead).setData({
-      'boat': FieldValue.arrayUnion([
-        {'itemName': itemName, 'isChecked': isChecked, 'price': price}
-      ]),
-    }, merge: true);
+    return await userRef
+        .document(listHead)
+        .collection('items')
+        .document(itemName)
+        .updateData({
+      'isChecked': !isChecked,
+    });
   }
 
   //mainlist
   Stream<QuerySnapshot> get listData {
-    return userRef.snapshots();
+    return userRef.orderBy('timeStampListHead').snapshots();
   }
 
-  Future<void> updateListNames() async {
+  Future<void> updateListNames({DateTime timeStampListHead}) async {
     return await userRef.document(listHead).setData({
       'tittle': listHead,
+      'timeStampListHead' : timeStampListHead,
     });
   }
 

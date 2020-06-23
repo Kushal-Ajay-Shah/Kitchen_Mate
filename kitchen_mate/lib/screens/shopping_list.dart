@@ -76,7 +76,7 @@ class _ShoppingListState extends State<ShoppingList> {
                         onPressed: () async {
                           await DatabaseService.email(
                                   email: userEmail.email, p: input)
-                              .updateListNames();
+                              .updateListNames(timeStampListHead: DateTime.now());
                           Navigator.of(context).pop();
                         },
                         child: Text("ADD",
