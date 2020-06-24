@@ -20,20 +20,9 @@ class _ShoppingListState extends State<ShoppingList> {
   @override
   void initState() {
     super.initState();
-    // await getCurrentUser();
   }
 
-  // Future getCurrentUser() async {
-  //   try {
-  //     final user = await _auth.currentUser();
-  //     if (user != null) {
-  //       loggedInUser = user;
-  //       print(loggedInUser.email);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+  
 
   Widget build(BuildContext context) {
     final UserEmail userEmail = ModalRoute.of(context).settings.arguments;
@@ -108,7 +97,7 @@ class _ShoppingListState extends State<ShoppingList> {
                             Navigator.pushNamed(context, SubList.id,
                                 arguments: ShoppingListNameArg(
                                     tittle: list[index]['tittle'],
-                                    email: userEmail.email));
+                                    email: list[index]['contributor']));
                           },
                           child: Card(
                             child: ListTile(title: Text(list[index]['tittle'])),
@@ -116,7 +105,7 @@ class _ShoppingListState extends State<ShoppingList> {
                         ),
                         onDismissed: (left) async {
                           await DatabaseService.email(
-                                  email: userEmail.email,
+                                  email: list[index]['contributor'],
                                   p: list[index]['tittle'])
                               .deleteList();
                         },

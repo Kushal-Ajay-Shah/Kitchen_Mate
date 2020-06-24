@@ -4,7 +4,8 @@ class DatabaseService {
   String listHead = '';
   String id;
   CollectionReference userRef;
-  CollectionReference finalRef;
+  DocumentSnapshot newContributor;
+  // CollectionReference finalRef;
   DatabaseService();
   DatabaseService.email({email, p}) {
     id = email;
@@ -64,10 +65,23 @@ class DatabaseService {
     return await userRef.document(listHead).setData({
       'tittle': listHead,
       'timeStampListHead' : timeStampListHead,
+      'contributor':id,
     });
   }
 
   Future<void> deleteList() async {
     return userRef.document(listHead).delete();
+  }
+  //Rooms
+  Future<void> addContributor({anotherUser,DateTime timeStampListHead})async{
+    newContributor=await Firestore.instance.collection('kitchen').document(anotherUser).get();
+    if(newContributor.exists){
+      return newContributor.reference.collection('shopping').document(listHead).setData({
+        'contributor':id,
+        'tittle':listHead,
+        'timeStampListHead':timeStampListHead,
+      });
+
+    }
   }
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kitchen_mate/models/list_name.dart';
-import 'package:provider/provider.dart';
 import '../../services/data.dart';
 
 class SubList extends StatefulWidget {
@@ -13,6 +12,7 @@ class SubList extends StatefulWidget {
 
 class _SubListState extends State<SubList> {
   String input = '';
+  String anotherUser;
   double price = 0.0;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedInUser;
@@ -38,106 +38,171 @@ class _SubListState extends State<SubList> {
   Widget build(BuildContext context) {
     final ShoppingListNameArg listName =
         ModalRoute.of(context).settings.arguments;
-    return StreamProvider<DocumentSnapshot>.value(
-      value: DatabaseService.email(email: listName.email, p: listName.tittle)
-          .datas,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            listName.tittle,
-            style: TextStyle(
-              color: Colors.white,
-            ),
+    print(listName.email);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          listName.tittle,
+          style: TextStyle(
+            color: Colors.white,
           ),
-          backgroundColor: Colors.lime,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // print("${widget.tittle}");
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      'Add item',
-                      style: TextStyle(color: Colors.lightGreen),
-                    ),
-                    content: Container(
-                      height: 180,
-                      child: Column(
-                        children: <Widget>[
-                          TextField(
-                            cursorColor: Colors.lightGreen,
-                            decoration: InputDecoration(
-                                labelText: 'Item',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.lime),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green),
-                                )),
-                            onChanged: (String value) {
-                              input = value;
-                            },
-                          ),
-                          TextField(
-                            cursorColor: Colors.lightGreen,
-                            decoration: InputDecoration(
-                                labelText: 'Price',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.lime),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green),
-                                )),
-                            onChanged: (String val) {
-                              price = double.parse(val);
-                            },
-                          )
-                        ],
+        actions: [
+          FlatButton.icon(
+            onPressed: () {
+              // print("${widget.tittle}");
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text(
+                        'Add Contributor',
+                        style: TextStyle(color: Colors.lightGreen),
                       ),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
+                      content: Container(
+                        height: 60,
+                        child: Column(
+                          children: <Widget>[
+                            TextField(
+                              cursorColor: Colors.lightGreen,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                  labelText: 'Contributor',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lime),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.green),
+                                  )),
+                              onChanged: (String value) {
+                                anotherUser = value;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
                           onPressed: () async {
-                            if (input.isNotEmpty &&
-                                price.toString().isNotEmpty) {
+                            if (anotherUser != '') {
                               await DatabaseService.email(
                                       email: listName.email, p: listName.tittle)
-                                  .updateUserData(
-                                      itemName: input,
-                                      isChecked: false,
-                                      price: price,
-                                      timestamp: DateTime.now(),
-                                      );
-                                      price = 0.0;  
+                                  .addContributor(
+                                      anotherUser: anotherUser,
+                                      timeStampListHead: DateTime.now());
+                                      anotherUser='';
                               Navigator.of(context).pop();
+                            } else {
+                              anotherUser='';
+                              return;
                             }
                           },
                           child: Text(
                             "ADD",
                             style: TextStyle(color: Colors.lightGreen),
-                          ))
-                    ],
-                  );
-                });
-          },
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            icon: Icon(Icons.supervised_user_circle, color: Colors.green),
+            label: Text(
+              'Add Contributor',
+              style: TextStyle(color: Colors.green),
+            ),
           ),
-          backgroundColor: Colors.lightGreen,
+        ],
+        backgroundColor: Colors.lime,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // print("${widget.tittle}");
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                    'Add item',
+                    style: TextStyle(color: Colors.lightGreen),
+                  ),
+                  content: Container(
+                    height: 180,
+                    child: Column(
+                      children: <Widget>[
+                        TextField(
+                          cursorColor: Colors.lightGreen,
+                          decoration: InputDecoration(
+                              labelText: 'Item',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.lime),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.green),
+                              )),
+                          onChanged: (String value) {
+                            input = value;
+                          },
+                        ),
+                        TextField(
+                          cursorColor: Colors.lightGreen,
+                          decoration: InputDecoration(
+                              labelText: 'Price',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.lime),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.green),
+                              )),
+                          onChanged: (String val) {
+                            price = double.parse(val);
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                        onPressed: () async {
+                          if (input.isNotEmpty && price.toString().isNotEmpty) {
+                            await DatabaseService.email(
+                                    email: listName.email, p: listName.tittle)
+                                .updateUserData(
+                              itemName: input,
+                              isChecked: false,
+                              price: price,
+                              timestamp: DateTime.now(),
+                            );
+                            price = 0.0;
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: Text(
+                          "ADD",
+                          style: TextStyle(color: Colors.lightGreen),
+                        ))
+                  ],
+                );
+              });
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-        body: StreamBuilder<QuerySnapshot>(
-            stream:
-                DatabaseService.email(email: listName.email, p: listName.tittle)
-                    .itemList,
-            builder: (context, snapshot) {
-              if (snapshot != null &&
-                  snapshot.data != null &&
-                  snapshot.data.documents != null) {
-                var itemList = snapshot.data.documents;
-                return ListView.builder(
+        backgroundColor: Colors.lightGreen,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream:
+              DatabaseService.email(email: listName.email, p: listName.tittle)
+                  .itemList,
+          builder: (context, snapshot) {
+            if (snapshot != null &&
+                snapshot.data != null &&
+                snapshot.data.documents != null) {
+              var itemList = snapshot.data.documents;
+              return Container(
+                height: 500,
+                child: ListView.builder(
                     itemCount: itemList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Card(
@@ -157,12 +222,12 @@ class _SubListState extends State<SubList> {
                           trailing: Text('₹ ${itemList[index]['price']}'),
                         ),
                       );
-                    });
-              } else {
-                return Container();
-              }
-            }),
-      ),
+                    }),
+              );
+            } else {
+              return Container();
+            }
+          }),
     );
   }
 }
