@@ -13,6 +13,7 @@ class SubList extends StatefulWidget {
 
 class _SubListState extends State<SubList> {
   String input = '';
+  String anotherUser;
   double price = 0.0;
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedInUser;
@@ -49,7 +50,85 @@ class _SubListState extends State<SubList> {
               color: Colors.white,
             ),
           ),
-          backgroundColor: Colors.lime,
+          actions: [
+            FlatButton.icon(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    String err='';
+                    return StatefulBuilder(
+                      builder:(context,setState){
+                    return AlertDialog(
+                      title: Text(
+                        'Add item',
+                        style: TextStyle(color: Colors.lightGreen),
+                      ),
+                      content: Container(
+                        height: 80,
+                        child: Column(
+                          children: <Widget>[
+                            TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              cursorColor: Colors.lightGreen,
+                              decoration: InputDecoration(
+                                  labelText: 'Contributor\'s Mail Id',
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.lime),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.green),
+                                  )),
+                              onChanged: (String value) {
+                                anotherUser = value;
+                              },
+                            ),
+                            Text(
+                              err,
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 14.0),
+                            )
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                          onPressed: () async {
+                            if (anotherUser.isNotEmpty) {
+                              dynamic error = await DatabaseService.email(
+                                      email: listName.email, p: listName.tittle)
+                                  .addContributor(anotherUser, DateTime.now());
+                              if (error != null) {
+                                setState(() {
+                                  err = error;
+                                });
+                              } else {
+                                setState(() {
+                                  err='';
+                                  anotherUser='';
+                                });
+                                Navigator.of(context).pop();
+                              }
+                            }
+                          },
+                          child: Text(
+                            'add',
+                            style: TextStyle(color: Colors.lime),
+                          ),
+                        ),
+                      ],
+                    );});
+                  },
+                );
+              },
+              icon: Icon(
+                Icons.supervised_user_circle,
+                color: Colors.white,
+              ),
+              label: Text('Colaborate Users',
+                  style: TextStyle(color: Colors.white)),
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -105,12 +184,12 @@ class _SubListState extends State<SubList> {
                               await DatabaseService.email(
                                       email: listName.email, p: listName.tittle)
                                   .updateUserData(
-                                      itemName: input,
-                                      isChecked: false,
-                                      price: price,
-                                      timestamp: DateTime.now(),
-                                      );
-                                      price = 0.0;  
+                                itemName: input,
+                                isChecked: false,
+                                price: price,
+                                timestamp: DateTime.now(),
+                              );
+                              price = 0.0;
                               Navigator.of(context).pop();
                             }
                           },
@@ -142,7 +221,7 @@ class _SubListState extends State<SubList> {
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
                         key: Key(itemList[index]['itemName']),
-                                              child: Card(
+                        child: Card(
                           child: ListTile(
                             leading: Checkbox(
                                 value: itemList[index]['isChecked'],
@@ -161,8 +240,9 @@ class _SubListState extends State<SubList> {
                         ),
                         onDismissed: (left) async {
                           await DatabaseService.email(
-                                          email: listName.email,
-                                          p: listName.tittle).deleteItem(itemName: itemList[index]['itemName']);
+                                  email: listName.email, p: listName.tittle)
+                              .deleteItem(
+                                  itemName: itemList[index]['itemName']);
                         },
                       );
                     });

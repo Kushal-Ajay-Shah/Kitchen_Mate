@@ -3,9 +3,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseService {
   String listHead = '';
   String id;
+  DocumentSnapshot newUser;
   CollectionReference userRef;
   CollectionReference finalRef;
   DatabaseService();
+  DatabaseService.onlyEmail({this.id});
   DatabaseService.email({email, p}) {
     id = email;
     listHead = p;
@@ -13,6 +15,16 @@ class DatabaseService {
         .collection('kitchen')
         .document(email)
         .collection('shopping');
+  }
+  //Initialize Doc
+  initializeDoc()async{
+    return await Firestore.instance.collection('kitchen').document(id).setData({'user id':id});
+  }
+  checkDoc()async{
+    newUser=await Firestore.instance.collection('kitchen').document(id).get();
+    if(!newUser.exists){
+      return await newUser.reference.setData({'user id':id});
+    }
   }
   //sublist
   Future<void> updateUserData(
@@ -84,11 +96,26 @@ class DatabaseService {
   Future<void> updateListNames({DateTime timeStampListHead}) async {
     return await userRef.document(listHead).setData({
       'tittle': listHead,
+      'contributor':id,
       'timeStampListHead': timeStampListHead,
     });
   }
 
   Future<void> deleteList() async {
     return userRef.document(listHead).delete();
+  }
+  //rooms
+  addContributor(anotherUser,DateTime timeStampListHead )async{
+    newUser=await Firestore.instance.collection('kitchen').document(anotherUser).get();
+    if(newUser.exists){
+      return Firestore.instance.collection('kitchen').document(anotherUser).collection('shopping').document(listHead).setData({
+        'timeStampListHead':timeStampListHead,
+        'contributor':id,
+        'tittle':listHead,
+      });
+    }
+    else{
+      return 'User does not exist';
+    }
   }
 }
