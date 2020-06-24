@@ -117,6 +117,9 @@ class _ShoppingListState extends State<ShoppingList> {
                         onDismissed: (left) async {
                           await DatabaseService.email(
                                   email: userEmail.email,
+                                  p: list[index]['tittle']).deleteAllItems();
+                          await DatabaseService.email(
+                                  email: userEmail.email,
                                   p: list[index]['tittle'])
                               .deleteList();
                         },

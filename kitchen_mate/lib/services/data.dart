@@ -55,6 +55,27 @@ class DatabaseService {
     });
   }
 
+  Future<void> deleteItem(
+      {String itemName}) async {
+    return await userRef
+        .document(listHead)
+        .collection('items')
+        .document(itemName)
+        .delete();
+  }
+
+  Future<void> deleteAllItems() async {
+    return await userRef
+        .document(listHead)
+        .collection('items')
+        .getDocuments()
+        .then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+  }
+
   //mainlist
   Stream<QuerySnapshot> get listData {
     return userRef.orderBy('timeStampListHead').snapshots();
@@ -63,7 +84,7 @@ class DatabaseService {
   Future<void> updateListNames({DateTime timeStampListHead}) async {
     return await userRef.document(listHead).setData({
       'tittle': listHead,
-      'timeStampListHead' : timeStampListHead,
+      'timeStampListHead': timeStampListHead,
     });
   }
 
