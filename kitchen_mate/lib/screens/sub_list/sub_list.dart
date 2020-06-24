@@ -205,22 +205,30 @@ class _SubListState extends State<SubList> {
                 child: ListView.builder(
                     itemCount: itemList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Card(
-                        child: ListTile(
-                          leading: Checkbox(
-                              value: itemList[index]['isChecked'],
-                              onChanged: (value) async {
-                                await DatabaseService.email(
-                                        email: listName.email,
-                                        p: listName.tittle)
-                                    .toggleCheckbox(
-                                  itemName: itemList[index]['itemName'],
-                                  isChecked: itemList[index]['isChecked'],
-                                );
-                              }),
-                          title: Text(itemList[index]['itemName']),
-                          trailing: Text('₹ ${itemList[index]['price']}'),
+                      return Dismissible(
+                        key: Key(itemList[index]['itemName']),
+                                              child: Card(
+                          child: ListTile(
+                            leading: Checkbox(
+                                value: itemList[index]['isChecked'],
+                                onChanged: (value) async {
+                                  await DatabaseService.email(
+                                          email: listName.email,
+                                          p: listName.tittle)
+                                      .toggleCheckbox(
+                                    itemName: itemList[index]['itemName'],
+                                    isChecked: itemList[index]['isChecked'],
+                                  );
+                                }),
+                            title: Text(itemList[index]['itemName']),
+                            trailing: Text('₹ ${itemList[index]['price']}'),
+                          ),
                         ),
+                        onDismissed: (left) async {
+                          await DatabaseService.email(
+                                          email: listName.email,
+                                          p: listName.tittle).deleteItem(itemName: itemList[index]['itemName']);
+                        },
                       );
                     }),
               );
