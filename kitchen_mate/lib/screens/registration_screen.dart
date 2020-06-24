@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_mate/components/rounded_button.dart';
 import 'package:kitchen_mate/models/user_email_arg.dart';
 import 'package:kitchen_mate/screens/home_screen.dart';
+import 'package:kitchen_mate/services/data.dart';
 import 'package:kitchen_mate/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -116,6 +117,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         });
                       }
                     }
+                    DatabaseService.onlyEmail(id:email).initializeDoc();
                   },
                 ),
                 SizedBox(height: 12.0),

@@ -108,7 +108,7 @@ class _ShoppingListState extends State<ShoppingList> {
                             Navigator.pushNamed(context, SubList.id,
                                 arguments: ShoppingListNameArg(
                                     tittle: list[index]['tittle'],
-                                    email: userEmail.email));
+                                    email: list[index]['contributor']));
                           },
                           child: Card(
                             child: ListTile(title: Text(list[index]['tittle'])),

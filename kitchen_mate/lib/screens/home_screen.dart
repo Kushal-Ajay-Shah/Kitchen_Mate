@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kitchen_mate/services/data.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kitchen_mate/screens/meals_planner.dart';
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
       if (user != null) {
         loggedInUser = user;
         print(loggedInUser.email);
+        DatabaseService.onlyEmail(id:loggedInUser.email).checkDoc();
       }
     } catch (e) {
       print(e);
