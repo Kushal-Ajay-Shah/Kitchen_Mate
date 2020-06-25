@@ -99,19 +99,32 @@ class DatabaseService {
       'tittle': listHead,
       'contributor':id,
       'timeStampListHead': timeStampListHead,
+      'users':FieldValue.arrayUnion([id]),
     });
   }
 
   Future<void> deleteList() async {
-    return userRef.document(listHead).delete();
+    DocumentSnapshot data=await userRef.document(listHead).get();
+    CollectionReference ada=Firestore.instance.collection('kitchen');
+    DocumentSnapshot userRefNew=await Firestore.instance.collection('kitchen').document(data['contributor']).collection('shopping').document(listHead).get();
+    if(id==data['contributor']){
+      for(int i=0; i<userRefNew['users'].length;i++){
+        await ada.document(userRefNew['users'][i]).collection('shopping').document(listHead).delete();
+      }
+      return ;
+    }
+    else{
+       await userRefNew.reference.setData({
+        'users':FieldValue.arrayRemove([id]),},merge: true);
+      return userRef.document(listHead).delete();
+    }
   }
   //rooms
   addContributor(anotherUser,DateTime timeStampListHead )async{
     newUser=await Firestore.instance.collection('kitchen').document(anotherUser).get();
     if(newUser.exists){
-      await Firestore.instance.collection('rooms').document(listHead).setData({
-      'admin':id,
-      'users':FieldValue.arrayUnion([id,anotherUser]),},merge: true);
+      await userRef.document(listHead).setData({
+      'users':FieldValue.arrayUnion([anotherUser]),},merge: true);
       return Firestore.instance.collection('kitchen').document(anotherUser).collection('shopping').document(listHead).setData({
         'timeStampListHead':timeStampListHead,
         'contributor':id,
@@ -120,6 +133,17 @@ class DatabaseService {
     }
     else{
       return 'User does not exist';
+    }
+  }
+  removeUserColab({userId})async{
+    DocumentSnapshot data=await userRef.document(listHead).get();
+    if(userId!=data['contributor']){
+      await Firestore.instance.collection('kitchen').document(userId).collection('shopping').document(listHead).delete();
+      return await userRef.document(listHead).setData({
+        'users':FieldValue.arrayRemove([userId]),},merge: true);
+    }
+    else{
+      return 'cannot delete that user';
     }
   }
 }
