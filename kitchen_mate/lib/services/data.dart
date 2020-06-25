@@ -114,6 +114,8 @@ class DatabaseService {
       return ;
     }
     else{
+       await userRefNew.reference.setData({
+        'users':FieldValue.arrayRemove([id]),},merge: true);
       return userRef.document(listHead).delete();
     }
   }
