@@ -93,48 +93,60 @@ class _SubListState extends State<SubList> {
                                     Text('Current Collaborators'),
                                     Container(
                                         height: 150,
+                                        width: 360,
                                         child: ListView.builder(
                                             itemCount: text.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return GestureDetector(
-                                                onDoubleTap: ()=>DatabaseService.email(email:listName.email,p:listName.tittle).removeUserColab(userId:text[index]),
+                                                onDoubleTap: () =>
+                                                    DatabaseService.email(
+                                                            email:
+                                                                listName.email,
+                                                            p: listName.tittle)
+                                                        .removeUserColab(
+                                                            userId:
+                                                                text[index]),
                                                 child: Card(
-                                                    child: ListTile(
-                                                        leading: CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.lightGreen,
-                                                          child: Text(
-                                                            text[index][0],
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
-                                                          ),
-                                                        ),
-                                                        title: Text(
-                                                          text[index],
+                                                  child: ListTile(
+                                                      leading: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.lightGreen,
+                                                        child: Text(
+                                                          text[index][0],
                                                           style: TextStyle(
                                                               color:
-                                                                  Colors.green),
-                                                        ))),
+                                                                  Colors.white),
+                                                        ),
+                                                      ),
+                                                      title: Text(
+                                                        text[index],
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.green),
+                                                      )),
+                                                ),
                                               );
                                             })),
-                                    TextField(
-                                      keyboardType: TextInputType.emailAddress,
-                                      cursorColor: Colors.lightGreen,
-                                      decoration: InputDecoration(
-                                          labelText: 'Contributor\'s Mail Id',
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.lime),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.green),
-                                          )),
-                                      onChanged: (String value) {
-                                        anotherUser = value;
-                                      },
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        cursorColor: Colors.lightGreen,
+                                        decoration: InputDecoration(
+                                            labelText: 'Contributor\'s Mail Id',
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.lime),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green),
+                                            )),
+                                        onChanged: (String value) {
+                                          anotherUser = value;
+                                        },
+                                      ),
                                     ),
                                     Text(
                                       err,
