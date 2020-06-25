@@ -51,17 +51,9 @@ class _SubListState extends State<SubList> {
   }
 
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     final ShoppingListNameArg listName =
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
-=======
-    listName = ModalRoute.of(context).settings.arguments;
-    return StreamProvider<DocumentSnapshot>.value(
-      value: DatabaseService.email(email: listName.email, p: listName.tittle)
-          .datas,
-      child: Scaffold(
->>>>>>> master
         appBar: AppBar(
           title: Text(
             listName.tittle,
@@ -76,7 +68,6 @@ class _SubListState extends State<SubList> {
                   context: context,
                   builder: (BuildContext context) {
                     String err = '';
-<<<<<<< HEAD
                     var text;
                     return StreamBuilder<DocumentSnapshot>(
                         stream: Firestore.instance
@@ -174,73 +165,6 @@ class _SubListState extends State<SubList> {
                             }
                           );
                         });
-=======
-                    return StatefulBuilder(builder: (context, setState) {
-                      return AlertDialog(
-                        title: Text(
-                          'Add item',
-                          style: TextStyle(color: Colors.lightGreen),
-                        ),
-                        content: Container(
-                          height: 80,
-                          child: Column(
-                            children: <Widget>[
-                              TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    labelText: 'Contributor\'s Mail Id',
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.lime),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.green),
-                                    )),
-                                onChanged: (String value) {
-                                  anotherUser = value;
-                                },
-                              ),
-                              Text(
-                                err,
-                                style: TextStyle(
-                                    color: Colors.red, fontSize: 14.0),
-                              )
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            onPressed: () async {
-                              if (anotherUser.isNotEmpty) {
-                                dynamic error = await DatabaseService.email(
-                                        email: listName.email,
-                                        p: listName.tittle)
-                                    .addContributor(
-                                        anotherUser, DateTime.now());
-                                if (error != null) {
-                                  setState(() {
-                                    err = error;
-                                  });
-                                } else {
-                                  setState(() {
-                                    err = '';
-                                    anotherUser = '';
-                                  });
-                                  Navigator.of(context).pop();
-                                }
-                              }
-                            },
-                            child: Text(
-                              'add',
-                              style: TextStyle(color: Colors.lime),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
->>>>>>> master
                   },
                 );
               },
@@ -331,51 +255,6 @@ class _SubListState extends State<SubList> {
           ),
           backgroundColor: Colors.lightGreen,
         ),
-<<<<<<< HEAD
-        body: StreamBuilder<QuerySnapshot>(
-            stream:
-                DatabaseService.email(email: listName.email, p: listName.tittle)
-                    .itemList,
-            builder: (context, snapshot) {
-              if (snapshot != null &&
-                  snapshot.data != null &&
-                  snapshot.data.documents != null) {
-                var itemList = snapshot.data.documents;
-                return ListView.builder(
-                    itemCount: itemList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Dismissible(
-                        key: Key(itemList[index]['itemName']),
-                        child: Card(
-                          child: ListTile(
-                            leading: Checkbox(
-                                value: itemList[index]['isChecked'],
-                                onChanged: (value) async {
-                                  await DatabaseService.email(
-                                          email: listName.email,
-                                          p: listName.tittle)
-                                      .toggleCheckbox(
-                                    itemName: itemList[index]['itemName'],
-                                    isChecked: itemList[index]['isChecked'],
-                                  );
-                                }),
-                            title: Text(itemList[index]['itemName']),
-                            trailing: Text('₹ ${itemList[index]['price']}'),
-                          ),
-                        ),
-                        onDismissed: (left) async {
-                          await DatabaseService.email(
-                                  email: listName.email, p: listName.tittle)
-                              .deleteItem(
-                                  itemName: itemList[index]['itemName']);
-                        },
-                      );
-                    });
-              } else {
-                return Container();
-              }
-            }),
-=======
         body: Column(
           children: <Widget>[
             Padding(
@@ -440,8 +319,6 @@ class _SubListState extends State<SubList> {
             ),
           ],
         ),
-      ),
->>>>>>> master
     );
   }
 }
