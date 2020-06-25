@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kitchen_mate/models/list_name.dart';
-import 'package:provider/provider.dart';
 import '../../services/data.dart';
 
 class SubList extends StatefulWidget {
@@ -52,11 +51,13 @@ class _SubListState extends State<SubList> {
   }
 
   Widget build(BuildContext context) {
-    listName = ModalRoute.of(context).settings.arguments;
-    return StreamProvider<DocumentSnapshot>.value(
-      value: DatabaseService.email(email: listName.email, p: listName.tittle)
-          .datas,
-      child: Scaffold(
+<<<<<<< HEAD
+    listName =
+=======
+    final ShoppingListNameArg listName =
+>>>>>>> de34b118f7fbabe7863b746ed0f0720b998b0429
+        ModalRoute.of(context).settings.arguments;
+    return Scaffold(
         appBar: AppBar(
           title: Text(
             listName.tittle,
@@ -71,71 +72,103 @@ class _SubListState extends State<SubList> {
                   context: context,
                   builder: (BuildContext context) {
                     String err = '';
-                    return StatefulBuilder(builder: (context, setState) {
-                      return AlertDialog(
-                        title: Text(
-                          'Add item',
-                          style: TextStyle(color: Colors.lightGreen),
-                        ),
-                        content: Container(
-                          height: 80,
-                          child: Column(
-                            children: <Widget>[
-                              TextField(
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    labelText: 'Contributor\'s Mail Id',
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.lime),
+                    var text;
+                    return StreamBuilder<DocumentSnapshot>(
+                        stream: Firestore.instance
+                            .collection('rooms')
+                            .document(listName.tittle)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          DocumentSnapshot doom = snapshot.data;
+                          if (doom.exists) {
+                            text = doom.data['users'];
+                          }
+                          return StatefulBuilder(builder: (context, setState) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Add User',
+                                  style: TextStyle(color: Colors.lightGreen),
+                                ),
+                                content: Container(
+                                  height: 170,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text('Current Collaborators'),
+                                      Container(
+                                        height:70 ,
+                                        child: GridView.count(crossAxisCount: 5,
+                                        children: List.generate(50, (index) {
+                                          return Column(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor: Colors.lightGreen,
+                                                child: Text(text[index][0],style: TextStyle(color:Colors.white),),
+                                              ),
+                                              Text(text[index],style: TextStyle(fontSize:5),),
+                                            ],
+                                          );
+                                        }),
+                                        ),
+                                      ),
+                                      TextField(
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        cursorColor: Colors.lightGreen,
+                                        decoration: InputDecoration(
+                                            labelText: 'Contributor\'s Mail Id',
+                                            enabledBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.lime),
+                                            ),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Colors.green),
+                                            )),
+                                        onChanged: (String value) {
+                                          anotherUser = value;
+                                        },
+                                      ),
+                                      Text(
+                                        err,
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 14.0),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    onPressed: () async {
+                                      if (anotherUser.isNotEmpty) {
+                                        dynamic error =
+                                            await DatabaseService.email(
+                                                    email: listName.email,
+                                                    p: listName.tittle)
+                                                .addContributor(anotherUser,
+                                                    DateTime.now());
+                                        if (error != null) {
+                                          setState(() {
+                                            err = error;
+                                          });
+                                        } else {
+                                          setState(() {
+                                            err = '';
+                                            anotherUser = '';
+                                          });
+                                          Navigator.of(context).pop();
+                                        }
+                                      }
+                                    },
+                                    child: Text(
+                                      'add',
+                                      style: TextStyle(color: Colors.lime),
                                     ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.green),
-                                    )),
-                                onChanged: (String value) {
-                                  anotherUser = value;
-                                },
-                              ),
-                              Text(
-                                err,
-                                style: TextStyle(
-                                    color: Colors.red, fontSize: 14.0),
-                              )
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            onPressed: () async {
-                              if (anotherUser.isNotEmpty) {
-                                dynamic error = await DatabaseService.email(
-                                        email: listName.email,
-                                        p: listName.tittle)
-                                    .addContributor(
-                                        anotherUser, DateTime.now());
-                                if (error != null) {
-                                  setState(() {
-                                    err = error;
-                                  });
-                                } else {
-                                  setState(() {
-                                    err = '';
-                                    anotherUser = '';
-                                  });
-                                  Navigator.of(context).pop();
-                                }
-                              }
-                            },
-                            child: Text(
-                              'add',
-                              style: TextStyle(color: Colors.lime),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
+                                  ),
+                                ],
+                              );
+                            }
+                          );
+                        });
                   },
                 );
               },
@@ -290,7 +323,6 @@ class _SubListState extends State<SubList> {
             ),
           ],
         ),
-      ),
     );
   }
 }
