@@ -51,7 +51,11 @@ class _SubListState extends State<SubList> {
   }
 
   Widget build(BuildContext context) {
+<<<<<<< HEAD
     listName =
+=======
+    final ShoppingListNameArg listName =
+>>>>>>> de34b118f7fbabe7863b746ed0f0720b998b0429
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
         appBar: AppBar(
