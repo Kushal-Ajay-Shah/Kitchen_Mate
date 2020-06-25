@@ -32,6 +32,7 @@ class DatabaseService {
       bool isChecked,
       double price,
       DateTime timestamp}) async {
+        
     return await userRef
         .document(listHead)
         .collection('items')
@@ -108,6 +109,9 @@ class DatabaseService {
   addContributor(anotherUser,DateTime timeStampListHead )async{
     newUser=await Firestore.instance.collection('kitchen').document(anotherUser).get();
     if(newUser.exists){
+      await Firestore.instance.collection('rooms').document(listHead).setData({
+      'admin':id,
+      'users':FieldValue.arrayUnion([id,anotherUser]),},merge: true);
       return Firestore.instance.collection('kitchen').document(anotherUser).collection('shopping').document(listHead).setData({
         'timeStampListHead':timeStampListHead,
         'contributor':id,
