@@ -54,20 +54,35 @@ class _SubListState extends State<SubList> {
     });
   }
 
-  displayContri(text) {
+  displayContri(text, bool admin) {
     return Card(
       child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: Colors.lightGreen,
-            child: Text(
-              text[0],
-              style: TextStyle(color: Colors.white),
-            ),
+        contentPadding: EdgeInsets.all(5),
+        leading: CircleAvatar(
+          backgroundColor: Colors.lightGreen,
+          child: Text(
+            text[0],
+            style: TextStyle(color: Colors.white),
           ),
-          title: Text(
-            text,
-            style: TextStyle(color: Colors.green),
-          )),
+        ),
+        title: Text(
+          text,
+          style: TextStyle(color: Colors.green,fontSize: 12),
+        ),
+        subtitle: text==widget.listName.email?Text('admin',style: TextStyle(color: Colors.red,fontSize: 6)):null,
+        trailing: admin
+            ? IconButton(
+                onPressed: () => DatabaseService.email(
+                        email: widget.listName.email, p: widget.listName.tittle)
+                    .removeUserColab(userId: text),
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 30,
+                ),
+              )
+            : null,
+      ),
     );
   }
 
@@ -108,29 +123,27 @@ class _SubListState extends State<SubList> {
                             content: SingleChildScrollView(
                               child: Container(
                                 height: 250,
+                                width: 500,
                                 child: Column(
                                   children: <Widget>[
                                     Text('Current Collaborators'),
                                     Container(
                                         height: 150,
-                                        width: 360,
+                                        width: 500,
                                         child: ListView.builder(
                                             itemCount: text.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return widget.listName.email==widget.listName.actualUser? GestureDetector(
-                                                onDoubleTap: () =>
-                                                    DatabaseService.email(
-                                                            email: widget
-                                                                .listName.email,
-                                                            p: widget.listName
-                                                                .tittle)
-                                                        .removeUserColab(
-                                                            userId:
-                                                                text[index]),
-                                                child:
-                                                    displayContri(text[index]),
-                                              ):displayContri(text[index]);
+                                              bool admin = false;
+                                              if (widget.listName.email ==
+                                                  widget.listName.actualUser) {
+                                                admin = true;
+                                              }
+                                              return admin
+                                                  ? displayContri(
+                                                      text[index], admin)
+                                                  : displayContri(
+                                                      text[index], admin);
                                             })),
                                     Expanded(
                                       child: TextField(
@@ -164,7 +177,7 @@ class _SubListState extends State<SubList> {
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () async {
-                                  if (anotherUser.isNotEmpty) {
+                                  if (anotherUser.isNotEmpty && anotherUser!=widget.listName.actualUser && anotherUser!=widget.listName.email) {
                                     dynamic error = await DatabaseService.email(
                                             email: widget.listName.email,
                                             p: widget.listName.tittle)
