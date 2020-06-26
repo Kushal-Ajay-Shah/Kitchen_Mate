@@ -11,7 +11,7 @@ class SubList extends StatefulWidget {
   @override
   _SubListState createState() {
     return _SubListState();
-  } 
+  }
 }
 
 class _SubListState extends State<SubList> {
@@ -52,6 +52,23 @@ class _SubListState extends State<SubList> {
       });
       print(total);
     });
+  }
+
+  displayContri(text) {
+    return Card(
+      child: ListTile(
+          leading: CircleAvatar(
+            backgroundColor: Colors.lightGreen,
+            child: Text(
+              text[0],
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          title: Text(
+            text,
+            style: TextStyle(color: Colors.green),
+          )),
+    );
   }
 
   Widget build(BuildContext context) {
@@ -101,35 +118,19 @@ class _SubListState extends State<SubList> {
                                             itemCount: text.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return GestureDetector(
+                                              return widget.listName.email==widget.listName.actualUser? GestureDetector(
                                                 onDoubleTap: () =>
                                                     DatabaseService.email(
-                                                            email:
-                                                                widget.listName.email,
-                                                            p: widget.listName.tittle)
+                                                            email: widget
+                                                                .listName.email,
+                                                            p: widget.listName
+                                                                .tittle)
                                                         .removeUserColab(
                                                             userId:
                                                                 text[index]),
-                                                child: Card(
-                                                  child: ListTile(
-                                                      leading: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.lightGreen,
-                                                        child: Text(
-                                                          text[index][0],
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ),
-                                                      title: Text(
-                                                        text[index],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.green),
-                                                      )),
-                                                ),
-                                              );
+                                                child:
+                                                    displayContri(text[index]),
+                                              ):displayContri(text[index]);
                                             })),
                                     Expanded(
                                       child: TextField(
@@ -254,7 +255,8 @@ class _SubListState extends State<SubList> {
                         onPressed: () async {
                           if (input.isNotEmpty && price.toString().isNotEmpty) {
                             await DatabaseService.email(
-                                    email: widget.listName.email, p: widget.listName.tittle)
+                                    email: widget.listName.email,
+                                    p: widget.listName.tittle)
                                 .updateUserData(
                               itemName: input,
                               isChecked: false,
@@ -330,7 +332,8 @@ class _SubListState extends State<SubList> {
                             ),
                             onDismissed: (left) async {
                               await DatabaseService.email(
-                                      email: widget.listName.email, p: widget.listName.tittle)
+                                      email: widget.listName.email,
+                                      p: widget.listName.tittle)
                                   .deleteItem(
                                       itemName: itemList[index]['itemName']);
                             },

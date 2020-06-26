@@ -135,9 +135,9 @@ class DatabaseService {
       return 'User does not exist';
     }
   }
-  removeUserColab({userId})async{
+  removeUserColab({userId,actualUser})async{
     DocumentSnapshot data=await userRef.document(listHead).get();
-    if(userId!=data['contributor']){
+    if(userId!=data['contributor'] && actualUser!=userId){
       await Firestore.instance.collection('kitchen').document(userId).collection('shopping').document(listHead).delete();
       return await userRef.document(listHead).setData({
         'users':FieldValue.arrayRemove([userId]),},merge: true);
