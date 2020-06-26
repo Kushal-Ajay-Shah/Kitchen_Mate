@@ -6,8 +6,12 @@ import '../../services/data.dart';
 
 class SubList extends StatefulWidget {
   static const String id = 'sub_shopping_list';
+  final ShoppingListNameArg listName;
+  SubList({this.listName});
   @override
-  _SubListState createState() => _SubListState();
+  _SubListState createState() {
+    return _SubListState();
+  } 
 }
 
 class _SubListState extends State<SubList> {
@@ -22,6 +26,7 @@ class _SubListState extends State<SubList> {
   void initState() {
     super.initState();
     getCurrentUser();
+    totalSum(widget.listName);
   }
 
   void getCurrentUser() async {
@@ -50,12 +55,10 @@ class _SubListState extends State<SubList> {
   }
 
   Widget build(BuildContext context) {
-    final ShoppingListNameArg listName =
-        ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          listName.tittle,
+          widget.listName.tittle,
           style: TextStyle(
             color: Colors.white,
           ),
@@ -71,9 +74,9 @@ class _SubListState extends State<SubList> {
                   return StreamBuilder<DocumentSnapshot>(
                       stream: Firestore.instance
                           .collection('kitchen')
-                          .document(listName.email)
+                          .document(widget.listName.email)
                           .collection('shopping')
-                          .document(listName.tittle)
+                          .document(widget.listName.tittle)
                           .snapshots(),
                       builder: (context, snapshot) {
                         DocumentSnapshot doom = snapshot.data;
@@ -102,8 +105,8 @@ class _SubListState extends State<SubList> {
                                                 onDoubleTap: () =>
                                                     DatabaseService.email(
                                                             email:
-                                                                listName.email,
-                                                            p: listName.tittle)
+                                                                widget.listName.email,
+                                                            p: widget.listName.tittle)
                                                         .removeUserColab(
                                                             userId:
                                                                 text[index]),
@@ -162,8 +165,8 @@ class _SubListState extends State<SubList> {
                                 onPressed: () async {
                                   if (anotherUser.isNotEmpty) {
                                     dynamic error = await DatabaseService.email(
-                                            email: listName.email,
-                                            p: listName.tittle)
+                                            email: widget.listName.email,
+                                            p: widget.listName.tittle)
                                         .addContributor(
                                             anotherUser, DateTime.now());
                                     if (error != null) {
@@ -251,14 +254,14 @@ class _SubListState extends State<SubList> {
                         onPressed: () async {
                           if (input.isNotEmpty && price.toString().isNotEmpty) {
                             await DatabaseService.email(
-                                    email: listName.email, p: listName.tittle)
+                                    email: widget.listName.email, p: widget.listName.tittle)
                                 .updateUserData(
                               itemName: input,
                               isChecked: false,
                               price: price,
                               timestamp: DateTime.now(),
                             );
-                            totalSum(listName);
+                            totalSum(widget.listName);
                             price = 0.0;
                             Navigator.of(context).pop();
                           }
@@ -297,7 +300,7 @@ class _SubListState extends State<SubList> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
                 stream: DatabaseService.email(
-                        email: listName.email, p: listName.tittle)
+                        email: widget.listName.email, p: widget.listName.tittle)
                     .itemList,
                 builder: (context, snapshot) {
                   if (snapshot != null &&
@@ -315,8 +318,8 @@ class _SubListState extends State<SubList> {
                                     value: itemList[index]['isChecked'],
                                     onChanged: (value) async {
                                       await DatabaseService.email(
-                                              email: listName.email,
-                                              p: listName.tittle)
+                                              email: widget.listName.email,
+                                              p: widget.listName.tittle)
                                           .toggleCheckbox(
                                         itemName: itemList[index]['itemName'],
                                         isChecked: itemList[index]['isChecked'],
@@ -328,7 +331,7 @@ class _SubListState extends State<SubList> {
                             ),
                             onDismissed: (left) async {
                               await DatabaseService.email(
-                                      email: listName.email, p: listName.tittle)
+                                      email: widget.listName.email, p: widget.listName.tittle)
                                   .deleteItem(
                                       itemName: itemList[index]['itemName']);
                             },
