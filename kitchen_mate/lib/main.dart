@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_mate/screens/days_of_week.dart';
 
 import 'package:kitchen_mate/screens/wrapper.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
             ShoppingList.id: (context) => ShoppingList(),
             MealsPlanner.id: (context) => MealsPlanner(),
             SubList.id:(context)=>SubList(),
+            WeekDays.id:(context)=>WeekDays(),
           },
       ),
     );
