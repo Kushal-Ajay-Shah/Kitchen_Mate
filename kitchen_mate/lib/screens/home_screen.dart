@@ -105,7 +105,7 @@ class _HomeState extends State<Home> {
                   RoundedButton(
                     title: 'Meals Planner',
                     onPressed: () {
-                      Navigator.pushNamed(context, MealsPlanner.id);
+                      Navigator.pushNamed(context, MealsPlanner.id,arguments: UserEmail(email:user.email));
                     },
                     colour: Colors.green,
                   ),
