@@ -261,7 +261,6 @@ class _SubListState extends State<SubList> {
                               price: price,
                               timestamp: DateTime.now(),
                             );
-                            totalSum(widget.listName);
                             price = 0.0;
                             Navigator.of(context).pop();
                           }
