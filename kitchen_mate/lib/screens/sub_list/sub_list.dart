@@ -11,7 +11,7 @@ class SubList extends StatefulWidget {
   @override
   _SubListState createState() {
     return _SubListState();
-  } 
+  }
 }
 
 class _SubListState extends State<SubList> {
@@ -54,6 +54,38 @@ class _SubListState extends State<SubList> {
     });
   }
 
+  displayContri(text, bool admin) {
+    return Card(
+      child: ListTile(
+        contentPadding: EdgeInsets.all(5),
+        leading: CircleAvatar(
+          backgroundColor: Colors.lightGreen,
+          child: Text(
+            text[0],
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+        title: Text(
+          text,
+          style: TextStyle(color: Colors.green,fontSize: 12),
+        ),
+        subtitle: text==widget.listName.email?Text('admin',style: TextStyle(color: Colors.red,fontSize: 6)):null,
+        trailing: admin
+            ? IconButton(
+                onPressed: () => DatabaseService.email(
+                        email: widget.listName.email, p: widget.listName.tittle)
+                    .removeUserColab(userId: text),
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                  size: 30,
+                ),
+              )
+            : null,
+      ),
+    );
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -91,45 +123,27 @@ class _SubListState extends State<SubList> {
                             content: SingleChildScrollView(
                               child: Container(
                                 height: 250,
+                                width: 500,
                                 child: Column(
                                   children: <Widget>[
                                     Text('Current Collaborators'),
                                     Container(
                                         height: 150,
-                                        width: 360,
+                                        width: 500,
                                         child: ListView.builder(
                                             itemCount: text.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return GestureDetector(
-                                                onDoubleTap: () =>
-                                                    DatabaseService.email(
-                                                            email:
-                                                                widget.listName.email,
-                                                            p: widget.listName.tittle)
-                                                        .removeUserColab(
-                                                            userId:
-                                                                text[index]),
-                                                child: Card(
-                                                  child: ListTile(
-                                                      leading: CircleAvatar(
-                                                        backgroundColor:
-                                                            Colors.lightGreen,
-                                                        child: Text(
-                                                          text[index][0],
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white),
-                                                        ),
-                                                      ),
-                                                      title: Text(
-                                                        text[index],
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.green),
-                                                      )),
-                                                ),
-                                              );
+                                              bool admin = false;
+                                              if (widget.listName.email ==
+                                                  widget.listName.actualUser) {
+                                                admin = true;
+                                              }
+                                              return admin
+                                                  ? displayContri(
+                                                      text[index], admin)
+                                                  : displayContri(
+                                                      text[index], admin);
                                             })),
                                     Expanded(
                                       child: TextField(
@@ -163,7 +177,7 @@ class _SubListState extends State<SubList> {
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () async {
-                                  if (anotherUser.isNotEmpty) {
+                                  if (anotherUser.isNotEmpty && anotherUser!=widget.listName.actualUser && anotherUser!=widget.listName.email) {
                                     dynamic error = await DatabaseService.email(
                                             email: widget.listName.email,
                                             p: widget.listName.tittle)
@@ -254,7 +268,8 @@ class _SubListState extends State<SubList> {
                         onPressed: () async {
                           if (input.isNotEmpty && price.toString().isNotEmpty) {
                             await DatabaseService.email(
-                                    email: widget.listName.email, p: widget.listName.tittle)
+                                    email: widget.listName.email,
+                                    p: widget.listName.tittle)
                                 .updateUserData(
                               itemName: input,
                               isChecked: false,
@@ -330,7 +345,8 @@ class _SubListState extends State<SubList> {
                             ),
                             onDismissed: (left) async {
                               await DatabaseService.email(
-                                      email: widget.listName.email, p: widget.listName.tittle)
+                                      email: widget.listName.email,
+                                      p: widget.listName.tittle)
                                   .deleteItem(
                                       itemName: itemList[index]['itemName']);
                             },

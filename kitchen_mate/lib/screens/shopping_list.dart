@@ -105,9 +105,9 @@ class _ShoppingListState extends State<ShoppingList> {
                         key: Key(list[index]['tittle']),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SubList(listName: ShoppingListNameArg(
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SubList(listName: ShoppingListNameArg.withActualUser(
                                     tittle: list[index]['tittle'],
-                                    email: list[index]['contributor']),)));
+                                    email: list[index]['contributor'],actualUser: userEmail.email),)));
                           },
                           child: Card(
                             child: ListTile(title: Text(list[index]['tittle'])),
