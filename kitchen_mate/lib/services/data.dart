@@ -116,7 +116,7 @@ class DatabaseService {
     else{
        await userRefNew.reference.setData({
         'users':FieldValue.arrayRemove([id]),},merge: true);
-      return userRef.document(listHead).delete();
+      return await userRef.document(listHead).delete();
     }
   }
   //rooms
