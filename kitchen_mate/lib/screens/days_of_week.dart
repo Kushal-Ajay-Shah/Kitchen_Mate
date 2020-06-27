@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kitchen_mate/models/meals_user.dart';
 import 'package:kitchen_mate/services/meals_service.dart';
-import 'package:kitchen_mate/the_meal.dart';
+import 'package:kitchen_mate/screens/the_meal.dart';
 
 class WeekDays extends StatefulWidget {
   static const String id = 'days_of_week';
