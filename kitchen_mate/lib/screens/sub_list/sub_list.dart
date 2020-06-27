@@ -65,22 +65,34 @@ class _SubListState extends State<SubList> {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        title: Text(
-          text,
-          style: TextStyle(color: Colors.green,fontSize: 12),
+        title: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            text,
+            style: TextStyle(color: Colors.green),
+          ),
         ),
-        subtitle: text==widget.listName.email?Text('admin',style: TextStyle(color: Colors.red,fontSize: 6)):null,
-        trailing: admin
-            ? IconButton(
-                onPressed: () => DatabaseService.email(
-                        email: widget.listName.email, p: widget.listName.tittle)
-                    .removeUserColab(userId: text),
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red,
-                  size: 30,
-                ),
+        subtitle: text == widget.listName.email
+            ? Text(
+                'admin',
+                style: TextStyle(color: Colors.red, fontSize: 10),
+                textAlign: TextAlign.center,
               )
+            : null,
+        trailing: admin
+            ? text != widget.listName.email
+                ? IconButton(
+                    onPressed: () => DatabaseService.email(
+                            email: widget.listName.email,
+                            p: widget.listName.tittle)
+                        .removeUserColab(userId: text),
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                      size: 30,
+                    ),
+                  )
+                : null
             : null,
       ),
     );
@@ -177,7 +189,10 @@ class _SubListState extends State<SubList> {
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () async {
-                                  if (anotherUser.isNotEmpty && anotherUser!=widget.listName.actualUser && anotherUser!=widget.listName.email) {
+                                  if (anotherUser.isNotEmpty &&
+                                      anotherUser !=
+                                          widget.listName.actualUser &&
+                                      anotherUser != widget.listName.email) {
                                     dynamic error = await DatabaseService.email(
                                             email: widget.listName.email,
                                             p: widget.listName.tittle)
@@ -228,39 +243,41 @@ class _SubListState extends State<SubList> {
                     'Add item',
                     style: TextStyle(color: Colors.lightGreen),
                   ),
-                  content: Container(
-                    height: 180,
-                    child: Column(
-                      children: <Widget>[
-                        TextField(
-                          cursorColor: Colors.lightGreen,
-                          decoration: InputDecoration(
-                              labelText: 'Item',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lime),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
-                              )),
-                          onChanged: (String value) {
-                            input = value;
-                          },
-                        ),
-                        TextField(
-                          cursorColor: Colors.lightGreen,
-                          decoration: InputDecoration(
-                              labelText: 'Price',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lime),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
-                              )),
-                          onChanged: (String val) {
-                            price = double.parse(val);
-                          },
-                        )
-                      ],
+                  content: SingleChildScrollView(
+                    child: Container(
+                      height: 180,
+                      child: Column(
+                        children: <Widget>[
+                          TextField(
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                                labelText: 'Item',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.lime),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                )),
+                            onChanged: (String value) {
+                              input = value;
+                            },
+                          ),
+                          TextField(
+                            cursorColor: Colors.lightGreen,
+                            decoration: InputDecoration(
+                                labelText: 'Price',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.lime),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.green),
+                                )),
+                            onChanged: (String val) {
+                              price = double.parse(val);
+                            },
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   actions: <Widget>[

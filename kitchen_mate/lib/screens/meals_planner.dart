@@ -102,11 +102,13 @@ class _MealsPlanner extends State<MealsPlanner> {
                           ),
                           FlatButton(
                             onPressed: () async {
+                              print(selectedDate.add(Duration(days: 5)).day);
                               await MealsService.email(
                                       email: userEmail.email,
                                       week: weekName,
                                       startingDate: selectedDate)
                                   .updateWeek(timeStampWeek: DateTime.now());
+
                               Navigator.of(context).pop();
                             },
                             child: Text("ADD",
@@ -137,7 +139,7 @@ class _MealsPlanner extends State<MealsPlanner> {
                   return Dismissible(
                     key: Key(weekList[index]['weekName']),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => WeekDays(
                                   weekNameArg: MealsUserArguement(
