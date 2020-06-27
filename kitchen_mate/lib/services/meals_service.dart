@@ -6,10 +6,12 @@ class MealsService {
   String emailId;
   String weekName;
   DateTime selectedDate;
-  MealsService.email({email, week, startingDate}){
+  String day;
+  MealsService.email({email, week, startingDate,dayT='Monday'}){
     emailId = email;
     weekName = week;
     selectedDate = startingDate;
+    day=dayT;
     mealsUserRef = Firestore.instance
         .collection('kitchen')
         .document(email).collection('mealsplanner');
@@ -37,11 +39,35 @@ class MealsService {
     return mealsUserRef.orderBy('timeStampWeek').snapshots();
   }
 
-  Future <void> deleteWeek() async {
-    return await mealsUserRef.document(weekName).delete();
+  Future <void> deleteWeek(name) async {
+    return await mealsUserRef.document('dhruvis diet').delete();
   }
   //Day list
   Stream<QuerySnapshot> get listDay{
     return mealsUserRef.document(weekName).collection('days').orderBy('timeStampDay').snapshots();
+  }
+  //meals list
+  Stream<DocumentSnapshot> get listMeal{
+    return mealsUserRef.document(weekName).collection('days').document(day).snapshots();
+  }
+  Future<void> updateBreakfast(val){
+    return mealsUserRef.document(weekName).collection('days').document(day).setData({
+      'breakfast':val,
+    },merge: true);
+  }
+  Future<void> updateDinner(val){
+    return mealsUserRef.document(weekName).collection('days').document(day).setData({
+      'dinner':val,
+    },merge: true);
+  }
+  Future<void> updateLunch(val){
+    return mealsUserRef.document(weekName).collection('days').document(day).setData({
+      'lunch':val,
+    },merge: true);
+  }
+  Future<void> updateSnacks(val){
+    return mealsUserRef.document(weekName).collection('days').document(day).setData({
+      'snacks':val,
+    },merge: true);
   }
 }

@@ -8,7 +8,7 @@ class MealsUserArguement {
 class Meal{
   String email;
   String day;
-  String date;
+  DateTime date;
   String weekName;
   Meal({this.email,this.weekName,this.date,this.day});
 }

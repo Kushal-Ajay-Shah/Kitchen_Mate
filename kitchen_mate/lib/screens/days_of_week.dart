@@ -48,7 +48,7 @@ class _WeekDaysState extends State<WeekDays> {
             builder: (context, snapshot) {
               if (snapshot.data != null && snapshot.data.documents != null) {
                 var dayList = snapshot.data.documents;
-                print(dayList);
+                // print(dayList);
 
                 return GridView.count(
                     crossAxisCount: 2,
@@ -60,7 +60,7 @@ class _WeekDaysState extends State<WeekDays> {
                       return GestureDetector(
                         onTap: (){
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>ShowMyMeal(Meal(email:widget.weekNameArg.email,day:day,date:date,weekName: widget.weekNameArg.weekName))));
+                            builder: (context) =>ShowMyMeal(Meal(email:widget.weekNameArg.email,day:day,date:dayList[index]['timeStampDay'].toDate(),weekName: widget.weekNameArg.weekName))));
                         },
                                               child: Card(
                             child: ListTile(
