@@ -57,26 +57,29 @@ class _ShoppingListState extends State<ShoppingList> {
                         color: Colors.green,
                       ),
                     ),
-                    content: TextField(
-                      cursorColor: Colors.lightGreen,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.lime),
+                    content: SingleChildScrollView(
+                      child: TextField(
+                        cursorColor: Colors.lightGreen,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lime),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                          ),
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.green),
-                        ),
+                        onChanged: (String value) {
+                          input = value;
+                        },
                       ),
-                      onChanged: (String value) {
-                        input = value;
-                      },
                     ),
                     actions: <Widget>[
                       FlatButton(
                         onPressed: () async {
                           await DatabaseService.email(
                                   email: userEmail.email, p: input)
-                              .updateListNames(timeStampListHead: DateTime.now());
+                              .updateListNames(
+                                  timeStampListHead: DateTime.now());
                           Navigator.of(context).pop();
                         },
                         child: Text("ADD",
@@ -105,9 +108,14 @@ class _ShoppingListState extends State<ShoppingList> {
                         key: Key(list[index]['tittle']),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SubList(listName: ShoppingListNameArg.withActualUser(
-                                    tittle: list[index]['tittle'],
-                                    email: list[index]['contributor'],actualUser: userEmail.email),)));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SubList(
+                                      listName:
+                                          ShoppingListNameArg.withActualUser(
+                                              tittle: list[index]['tittle'],
+                                              email: list[index]['contributor'],
+                                              actualUser: userEmail.email),
+                                    )));
                           },
                           child: Card(
                             child: ListTile(title: Text(list[index]['tittle'])),
@@ -116,7 +124,8 @@ class _ShoppingListState extends State<ShoppingList> {
                         onDismissed: (left) async {
                           await DatabaseService.email(
                                   email: userEmail.email,
-                                  p: list[index]['tittle']).deleteAllItems();
+                                  p: list[index]['tittle'])
+                              .deleteAllItems();
                           await DatabaseService.email(
                                   email: userEmail.email,
                                   p: list[index]['tittle'])
