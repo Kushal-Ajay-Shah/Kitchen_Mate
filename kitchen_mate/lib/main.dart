@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
           child: MaterialApp(
             theme: ThemeData(primaryColor: Colors.green,
             accentColor: Colors.lightGreen,
+            primarySwatch: Colors.green,
             ),
           initialRoute: Wrapper.id,
           routes: {

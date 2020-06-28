@@ -81,7 +81,7 @@ class _MealsPlanner extends State<MealsPlanner> {
                             },
                           ),
                           Container(
-                            height: 70,
+                            height: 43,
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -93,26 +93,33 @@ class _MealsPlanner extends State<MealsPlanner> {
                                   child: Text(
                                     'Choose Date',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                   ),
                                   textColor: Theme.of(context).primaryColor,
                                 )
                               ],
                             ),
                           ),
-                          FlatButton(
+                          RaisedButton(
+                            color: Colors.lightGreen,
                             onPressed: () async {
-                              print(selectedDate.add(Duration(days: 5)).day);
-                              await MealsService.email(
-                                      email: userEmail.email,
-                                      week: weekName,
-                                      startingDate: selectedDate)
-                                  .updateWeek(timeStampWeek: DateTime.now());
-
-                              Navigator.of(context).pop();
+                              if (weekName != null && selectedDate != null) {
+                                DateTime weekDayTime = DateTime.now();
+                                await MealsService.email(
+                                        email: userEmail.email,
+                                        week: weekName,
+                                        startingDate: selectedDate)
+                                    .updateWeek(timeStampWeek: weekDayTime);
+                                Navigator.of(context).pop();
+                                await MealsService.email(
+                                        email: userEmail.email,
+                                        week: weekName,
+                                        startingDate: selectedDate)
+                                    .updateWeekDays(timeStampWeek: weekDayTime);
+                              }
                             },
                             child: Text("ADD",
-                                style: TextStyle(color: Colors.lightGreen)),
+                                style: TextStyle(color: Colors.white)),
                           )
                         ],
                       ),
@@ -139,14 +146,15 @@ class _MealsPlanner extends State<MealsPlanner> {
                   return Dismissible(
                     key: Key(weekList[index]['weekName']),
                     child: GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => WeekDays(
                                   weekNameArg: MealsUserArguement(
                                     email: userEmail.email,
                                     weekName: weekList[index]['weekName'],
                                     startingDate: weekList[index]
-                                        ['startingDate'].toDate(),
+                                            ['startingDate']
+                                        .toDate(),
                                   ),
                                 )));
                       },

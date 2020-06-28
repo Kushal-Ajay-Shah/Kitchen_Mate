@@ -49,10 +49,9 @@ class _WeekDaysState extends State<WeekDays> {
               if (snapshot.data != null && snapshot.data.documents != null) {
                 var dayList = snapshot.data.documents;
                 // print(dayList);
-
                 return GridView.count(
                     crossAxisCount: 2,
-                    children: List.generate(7, (index) {
+                    children: List.generate(dayList.length, (index) {
                       String day=DateFormat('EEEE')
                               .format(dayList[index]['timeStampDay'].toDate()).toString();
                       String date=DateFormat.MMMMd().format(
