@@ -46,6 +46,7 @@ class MealsService {
   }
 
   Future<void> deleteWeek(name) async {
+    print('hi');
     return await mealsUserRef.document(name).delete();
   }
 

@@ -92,8 +92,9 @@ class _MealsPlanner extends State<MealsPlanner> {
                                   onPressed: _presentDatePicker,
                                   child: Text(
                                     'Choose Date',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
                                   ),
                                   textColor: Theme.of(context).primaryColor,
                                 )
