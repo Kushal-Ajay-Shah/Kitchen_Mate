@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kitchen_mate/screens/edit_meals.dart';
 import 'package:kitchen_mate/services/meals_service.dart';
 
 import '../models/meals_user.dart';
@@ -13,14 +14,10 @@ class ShowMyMeal extends StatefulWidget {
 }
 
 class _ShowMyMealState extends State<ShowMyMeal> {
-  bool edit = false;
-  TextEditingController breakfast = TextEditingController();
-  TextEditingController lunch = TextEditingController();
-  TextEditingController snacks = TextEditingController();
-  TextEditingController dinner = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
+      backgroundColor: Colors.lightGreen,
       title: Column(children: <Widget>[
         ListTile(
           title: Expanded(
@@ -38,217 +35,158 @@ class _ShowMyMealState extends State<ShowMyMeal> {
       ]),
     );
     return Scaffold(
-        appBar: appBar,
-        body: StreamBuilder<DocumentSnapshot>(
-            stream: MealsService.email(
+      appBar: appBar,
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: MealsService.email(
                     email: widget.meal.email,
                     startingDate: widget.meal.date,
                     dayT: widget.meal.day,
                     week: widget.meal.weekName)
                 .listMeal,
-            builder: (context, snapshot) {
-              breakfast=new TextEditingController(text: snapshot.data['breakfast']);
-              lunch=new TextEditingController(text: snapshot.data['lunch']);
-              snacks=new TextEditingController(text: snapshot.data['snacks']);
-              dinner=new TextEditingController(text: snapshot.data['dinner']);
-              print(snapshot.data['breakfast']);
-              return Container(
-                alignment: Alignment.center,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(9, 0, 9, 0),
-                        alignment: Alignment.center,
-                        height: (MediaQuery.of(context).size.height -
-                                appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
-                            0.25,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  'Breakfast',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.lightGreen[700],
-                                  ),
+        builder: (context, snapshot) {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Card(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: InkWell(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Breakfast",
+                                  style: TextStyle(fontSize: 24),
                                 ),
-                              ),
-                              TextFormField(
-                                onChanged: (val){
-                                  MealsService.email(
-                    email: widget.meal.email,
-                    startingDate: widget.meal.date,
-                    dayT: widget.meal.day,
-                    week: widget.meal.weekName).updateBreakfast(val);
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                controller: breakfast,
-                                style: TextStyle(fontSize: 15),
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        8.0, 12.0, 8.0, 12.0),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.lightGreen),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5))),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(9, 0, 9, 0),
-                        alignment: Alignment.center,
-                        height: (MediaQuery.of(context).size.height -
-                                appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
-                            0.25,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  'Lunch',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.lightGreen[700],
-                                  ),
-                                ),
-                              ),
-                              TextFormField(
-                                onChanged: (val){
-                                  MealsService.email(
-                    email: widget.meal.email,
-                    startingDate: widget.meal.date,
-                    dayT: widget.meal.day,
-                    week: widget.meal.weekName).updateLunch(val);
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                controller: lunch,
-                                style: TextStyle(fontSize: 15),
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        8.0, 12.0, 8.0, 12.0),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.lightGreen),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5))),
-                              ),
-                            ],
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(snapshot.data['breakfast'] ?? 'Add Meal'),
+                              ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(9, 0, 9, 0),
-                        alignment: Alignment.center,
-                        height: (MediaQuery.of(context).size.height -
-                                appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
-                            0.25,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  'Snacks',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.lightGreen[700],
-                                  ),
-                                ),
-                              ),
-                              TextFormField(
-                                onChanged: (val){
-                                  MealsService.email(
-                    email: widget.meal.email,
-                    startingDate: widget.meal.date,
-                    dayT: widget.meal.day,
-                    week: widget.meal.weekName).updateSnacks(val);
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                controller: snacks,
-                                style: TextStyle(fontSize: 15),
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        8.0, 12.0, 8.0, 12.0),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.lightGreen),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5))),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.fromLTRB(9, 0, 9, 0),
-                        alignment: Alignment.center,
-                        height: (MediaQuery.of(context).size.height -
-                                appBar.preferredSize.height -
-                                MediaQuery.of(context).padding.top) *
-                            0.25,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                title: Text(
-                                  'Dinner',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.lightGreen[700],
-                                  ),
-                                ),
-                              ),
-                              TextFormField(
-                                onChanged: (val){
-                                  MealsService.email(
-                    email: widget.meal.email,
-                    startingDate: widget.meal.date,
-                    dayT: widget.meal.day,
-                    week: widget.meal.weekName).updateDinner(val);
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                controller: dinner,
-                                style: TextStyle(fontSize: 15),
-                                cursorColor: Colors.lightGreen,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.fromLTRB(
-                                        8.0, 12.0, 8.0, 12.0),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: new BorderSide(
-                                          color: Colors.lightGreen),
-                                    ),
-                                    border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(5))),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['breakfast'], number: 1,)));
+                      },
+                    ),
                   ),
-                ),
-              );
-            }));
+                  Card(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: InkWell(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Lunch",
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(snapshot.data['lunch'] ?? 'Add Meal'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['lunch'], number: 2,)));
+                      },
+                    ),
+                  ),
+                  Card(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: InkWell(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Snacks",
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(snapshot.data['snacks'] ?? 'Add Meal'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['snacks'], number: 3,)));
+                      },
+                    ),
+                  ),
+                  Card(
+                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                    color: Colors.white,
+                    elevation: 3,
+                    child: InkWell(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  "Dinner",
+                                  style: TextStyle(fontSize: 24),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Row(
+                              children: <Widget>[
+                                Text(snapshot.data['dinner'] ?? 'Add Meal'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['dinner'], number: 4,)));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      ),
+    );
   }
 }
