@@ -7,67 +7,103 @@ class MealsService {
   String weekName;
   DateTime selectedDate;
   String day;
-  MealsService.email({email, week, startingDate,dayT='Monday'}){
+  MealsService.email({email, week, startingDate, dayT = 'Monday'}) {
     emailId = email;
     weekName = week;
     selectedDate = startingDate;
-    day=dayT;
+    day = dayT;
     mealsUserRef = Firestore.instance
         .collection('kitchen')
-        .document(email).collection('mealsplanner');
+        .document(email)
+        .collection('mealsplanner');
   }
 
 // Week List
-  Future <void> updateWeek({timeStampWeek}) async {
-    print(timeStampWeek.add(Duration(days:2)).day);
-    for(int i=0;i<7;i++){
-      DateTime temp=selectedDate.add(Duration(days:i));
-      String dateFormat =DateFormat('EEEE').format(temp);
-      print(dateFormat);
-      await mealsUserRef.document(weekName).collection('days').document(dateFormat).setData({
-        'timeStampDay':temp,
+  Future<void> updateWeek({timeStampWeek}) async {
+    return await mealsUserRef.document(weekName).setData({
+      'weekName': weekName,
+      'startingDate': selectedDate,
+      'timeStampWeek': timeStampWeek,
+    });
+  }
+
+  Future<void> updateWeekDays({timeStampWeek}) async {
+    for (int i = 0; i < 7; i++) {
+      DateTime temp = selectedDate.add(Duration(days: i));
+      String dateFormat = DateFormat('EEEE').format(temp);
+      await mealsUserRef
+          .document(weekName)
+          .collection('days')
+          .document(dateFormat)
+          .setData({
+        'timeStampDay': temp,
       });
     }
-    return await mealsUserRef.document(weekName).setData({
-      'weekName' : weekName,
-      'startingDate' : selectedDate,
-      'timeStampWeek' : timeStampWeek,
-    });
-  } 
+  }
 
   Stream<QuerySnapshot> get listWeek {
     return mealsUserRef.orderBy('timeStampWeek').snapshots();
   }
 
-  Future <void> deleteWeek(name) async {
+  Future<void> deleteWeek(name) async {
     return await mealsUserRef.document(name).delete();
   }
+
   //Day list
-  Stream<QuerySnapshot> get listDay{
-    return mealsUserRef.document(weekName).collection('days').orderBy('timeStampDay').snapshots();
+  Stream<QuerySnapshot> get listDay {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .orderBy('timeStampDay')
+        .snapshots();
   }
+
   //meals list
-  Stream<DocumentSnapshot> get listMeal{
-    return mealsUserRef.document(weekName).collection('days').document(day).snapshots();
+  Stream<DocumentSnapshot> get listMeal {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .document(day)
+        .snapshots();
   }
-  Future<void> updateBreakfast(val){
-    return mealsUserRef.document(weekName).collection('days').document(day).setData({
-      'breakfast':val,
-    },merge: true);
+
+  Future<void> updateBreakfast(val) {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .document(day)
+        .setData({
+      'breakfast': val,
+    }, merge: true);
   }
-  Future<void> updateDinner(val){
-    return mealsUserRef.document(weekName).collection('days').document(day).setData({
-      'dinner':val,
-    },merge: true);
+
+  Future<void> updateDinner(val) {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .document(day)
+        .setData({
+      'dinner': val,
+    }, merge: true);
   }
-  Future<void> updateLunch(val){
-    return mealsUserRef.document(weekName).collection('days').document(day).setData({
-      'lunch':val,
-    },merge: true);
+
+  Future<void> updateLunch(val) {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .document(day)
+        .setData({
+      'lunch': val,
+    }, merge: true);
   }
-  Future<void> updateSnacks(val){
-    return mealsUserRef.document(weekName).collection('days').document(day).setData({
-      'snacks':val,
-    },merge: true);
+
+  Future<void> updateSnacks(val) {
+    return mealsUserRef
+        .document(weekName)
+        .collection('days')
+        .document(day)
+        .setData({
+      'snacks': val,
+    }, merge: true);
   }
 }
