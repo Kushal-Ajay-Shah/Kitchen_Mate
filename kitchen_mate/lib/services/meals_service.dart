@@ -40,7 +40,7 @@ class MealsService {
   }
 
   Future <void> deleteWeek(name) async {
-    return await mealsUserRef.document('dhruvis diet').delete();
+    return await mealsUserRef.document(name).delete();
   }
   //Day list
   Stream<QuerySnapshot> get listDay{
