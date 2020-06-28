@@ -81,7 +81,7 @@ class _MealsPlanner extends State<MealsPlanner> {
                             },
                           ),
                           Container(
-                            height: 70,
+                            height: 43,
                             child: Row(
                               children: <Widget>[
                                 Expanded(
@@ -93,14 +93,15 @@ class _MealsPlanner extends State<MealsPlanner> {
                                   child: Text(
                                     'Choose Date',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                                   ),
                                   textColor: Theme.of(context).primaryColor,
                                 )
                               ],
                             ),
                           ),
-                          FlatButton(
+                          RaisedButton(
+                            color: Colors.lightGreen,
                             onPressed: () async {
                               if (weekName != null && selectedDate != null) {
                                 DateTime weekDayTime = DateTime.now();
@@ -118,7 +119,7 @@ class _MealsPlanner extends State<MealsPlanner> {
                               }
                             },
                             child: Text("ADD",
-                                style: TextStyle(color: Colors.lightGreen)),
+                                style: TextStyle(color: Colors.white)),
                           )
                         ],
                       ),
