@@ -87,7 +87,7 @@ class _SubListState extends State<SubList> {
                             p: widget.listName.tittle)
                         .removeUserColab(userId: text),
                     icon: Icon(
-                      Icons.delete,
+                      Icons.clear,
                       color: Colors.red,
                       size: 30,
                     ),
@@ -227,8 +227,7 @@ class _SubListState extends State<SubList> {
               Icons.supervised_user_circle,
               color: Colors.white,
             ),
-            label:
-                Text('Colaborate Users', style: TextStyle(color: Colors.white)),
+            label: Text('Colab', style: TextStyle(color: Colors.white)),
           ),
         ],
       ),
