@@ -60,6 +60,7 @@ flutter:
     - assets/pizza-3007395_1920.jpg
     - assets/buffet-315691_1280.jpg
     - assets/close-up-of-coffee-cup-on-table-312418.jpg
+    - assets/9118.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

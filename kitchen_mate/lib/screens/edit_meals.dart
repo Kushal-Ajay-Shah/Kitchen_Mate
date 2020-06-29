@@ -62,8 +62,8 @@ class _EditMealsState extends State<EditMeals> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            image:
-                DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: AssetImage('assets/9118.jpg'), fit: BoxFit.cover)),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: SafeArea(
