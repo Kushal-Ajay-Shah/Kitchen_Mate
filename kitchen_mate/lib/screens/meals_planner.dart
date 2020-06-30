@@ -177,10 +177,12 @@ class _MealsPlanner extends State<MealsPlanner> {
                       ),
                     ),
                     onDismissed: (left) async {
+                      print('hi,in the meals planner');
                       await MealsService.email(
                               email: userEmail.email,
                               week: weekList[index]['weekName'],
-                              startingDate: weekList[index]['startingDate'])
+                              startingDate:
+                                  weekList[index]['startingDate'].toDate())
                           .deleteWeek(weekList[index]['weekName']);
                     },
                   );
