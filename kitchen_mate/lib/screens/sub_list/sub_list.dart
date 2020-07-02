@@ -231,7 +231,7 @@ class _SubListState extends State<SubList> {
                                     }
                                   },
                                   child: Text(
-                                    'add',
+                                    'Add',
                                     style: TextStyle(color: Colors.lime),
                                   ),
                                 ),
@@ -283,6 +283,7 @@ class _SubListState extends State<SubList> {
                           ),
                           TextField(
                             cursorColor: Colors.lightGreen,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                                 labelText: 'Price',
                                 enabledBorder: UnderlineInputBorder(

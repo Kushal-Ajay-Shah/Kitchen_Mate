@@ -24,30 +24,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return StreamProvider<User>.value(
-          value: AuthService().user,
-          child: MaterialApp(
-            theme: ThemeData(primaryColor: Colors.green,
-            accentColor: Colors.lightGreen,
-            primarySwatch: Colors.green,
-            ),
-          initialRoute: Wrapper.id,
-          routes: {
-            Wrapper.id: (context) => Wrapper(),
-            WelcomeScreen.id: (context) => WelcomeScreen(),
-            LoginScreen.id: (context) => LoginScreen(),
-            RegistrationScreen.id: (context) => RegistrationScreen(),
-            Home.id: (context) => Home(),
-            ShoppingList.id: (context) => ShoppingList(),
-            MealsPlanner.id: (context) => MealsPlanner(),
-            SubList.id:(context)=>SubList(),
-            WeekDays.id:(context)=>WeekDays(),
-          },
+      value: AuthService().user,
+      child: MaterialApp(
+        theme: ThemeData(
+          primaryColor: Colors.green,
+          accentColor: Colors.lightGreen,
+          primarySwatch: Colors.green,
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: Wrapper.id,
+        routes: {
+          Wrapper.id: (context) => Wrapper(),
+          WelcomeScreen.id: (context) => WelcomeScreen(),
+          LoginScreen.id: (context) => LoginScreen(),
+          RegistrationScreen.id: (context) => RegistrationScreen(),
+          Home.id: (context) => Home(),
+          ShoppingList.id: (context) => ShoppingList(),
+          MealsPlanner.id: (context) => MealsPlanner(),
+          SubList.id: (context) => SubList(),
+          WeekDays.id: (context) => WeekDays(),
+        },
       ),
     );
   }
 }
-

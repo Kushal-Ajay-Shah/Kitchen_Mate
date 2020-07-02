@@ -29,7 +29,7 @@ class _EditMealsState extends State<EditMeals> {
     if (widget.number == 1) {
       _breakfastController.text = widget.prevMeals;
       image = 'assets/blur-bread-breakfast-cake-397913.jpg';
-      buttonColor = Colors.black12;
+      buttonColor = Colors.white38;
       textColor = Colors.black;
       textField = Colors.black;
       mealtitle = 'Breakfast';
@@ -43,14 +43,14 @@ class _EditMealsState extends State<EditMeals> {
     } else if (widget.number == 3) {
       _snackController.text = widget.prevMeals;
       image = 'assets/close-up-of-coffee-cup-on-table-312418.jpg';
-      textColor = Colors.white;
-      textField = Colors.white;
-      buttonColor = Colors.white24;
+      textColor = Colors.black;
+      textField = Colors.black;
+      buttonColor = Colors.white38;
       mealtitle = 'Snacks';
     } else if (widget.number == 4) {
       _dinnerController.text = widget.prevMeals;
       image = 'assets/pizza-3007395_1920.jpg';
-      textColor = Colors.white;
+      textColor = Colors.black;
       buttonColor = Colors.white38;
       textField = Colors.black;
       mealtitle = 'Dinner';
