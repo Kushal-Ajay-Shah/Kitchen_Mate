@@ -43,88 +43,91 @@ class _MealsPlanner extends State<MealsPlanner> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
               context: context,
               builder: (BuildContext context) {
-                return SingleChildScrollView(
-                  child: Card(
-                    elevation: 5,
-                    child: Container(
-                      height: 900,
-                      padding: EdgeInsets.only(
-                        top: 10,
-                        left: 10,
-                        right: 10,
-                        bottom: MediaQuery.of(context).viewInsets.bottom + 10,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            'Add Week',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          TextField(
-                            cursorColor: Colors.lightGreen,
-                            decoration: InputDecoration(
-                              hintText: 'Add Week Name',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.lime),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.green),
-                              ),
-                            ),
-                            onChanged: (String value) {
-                              weekName = value;
-                            },
-                          ),
-                          Container(
-                            height: 43,
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    child: Text(selectedDate == null
-                                        ? 'No Date choosen!'
-                                        : 'Starting Date : ${DateFormat.yMMMMd().format(selectedDate)}')),
-                                FlatButton(
-                                  onPressed: _presentDatePicker,
-                                  child: Text(
-                                    'Choose Date',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                  textColor: Theme.of(context).primaryColor,
-                                )
-                              ],
-                            ),
-                          ),
-                          RaisedButton(
-                            color: Colors.lightGreen,
-                            onPressed: () async {
-                              if (weekName != null && selectedDate != null) {
-                                DateTime weekDayTime = DateTime.now();
-                                await MealsService.email(
-                                        email: userEmail.email,
-                                        week: weekName,
-                                        startingDate: selectedDate)
-                                    .updateWeek(timeStampWeek: weekDayTime);
-                                Navigator.of(context).pop();
-                                await MealsService.email(
-                                        email: userEmail.email,
-                                        week: weekName,
-                                        startingDate: selectedDate)
-                                    .updateWeekDays(timeStampWeek: weekDayTime);
-                              }
-                            },
-                            child: Text("ADD",
-                                style: TextStyle(color: Colors.white)),
-                          )
-                        ],
-                      ),
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.75,
+                  padding: EdgeInsets.only(
+                    top: 10,
+                    left: 10,
+                    right: 10,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+                  ),
+                  decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(25.0),
+                      topRight: const Radius.circular(25.0),
                     ),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Add Week',
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: 25.0,
+                        ),
+                      ),
+                      TextField(
+                        cursorColor: Colors.lightGreen,
+                        decoration: InputDecoration(
+                          hintText: 'Add Week Name',
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.lime),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.green),
+                          ),
+                        ),
+                        onChanged: (String value) {
+                          weekName = value;
+                        },
+                      ),
+                      Container(
+                        height: 70,
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                                child: Text(selectedDate == null
+                                    ? 'No Date choosen!'
+                                    : 'Starting Date : ${DateFormat.yMMMMd().format(selectedDate)}')),
+                            FlatButton(
+                              onPressed: _presentDatePicker,
+                              child: Text(
+                                'Choose Date',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              ),
+                              textColor: Theme.of(context).primaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+                      RaisedButton(
+                        color: Colors.lightGreen,
+                        onPressed: () async {
+                          if (weekName != null && selectedDate != null) {
+                            DateTime weekDayTime = DateTime.now();
+                            await MealsService.email(
+                                    email: userEmail.email,
+                                    week: weekName,
+                                    startingDate: selectedDate)
+                                .updateWeek(timeStampWeek: weekDayTime);
+                            Navigator.of(context).pop();
+                            await MealsService.email(
+                                    email: userEmail.email,
+                                    week: weekName,
+                                    startingDate: selectedDate)
+                                .updateWeekDays(timeStampWeek: weekDayTime);
+                          }
+                        },
+                        child:
+                            Text("ADD", style: TextStyle(color: Colors.white)),
+                      )
+                    ],
                   ),
                 );
               });

@@ -18,175 +18,208 @@ class _ShowMyMealState extends State<ShowMyMeal> {
   Widget build(BuildContext context) {
     final appBar = AppBar(
       backgroundColor: Colors.lightGreen,
-      title: Column(children: <Widget>[
-        ListTile(
-          title: Expanded(
-              child: Text(
-            widget.meal.weekName,
-            style: TextStyle(color: Colors.white),
-          )),
-          subtitle: Text(
-            widget.meal.day,
-            style: TextStyle(color: Colors.white),
+      title: Row(
+        children: <Widget>[
+          Column(children: <Widget>[
+            Text(
+              widget.meal.day,
+              style: TextStyle(color: Colors.white, ),
+            ),
+            Text(DateFormat.MMMMd().format(widget.meal.date).toString(), style: TextStyle(fontSize: 18.0),),
+          ]),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.2,
           ),
-          trailing:
-              Text(DateFormat.MMMMd().format(widget.meal.date).toString()),
-        )
-      ]),
+          Flexible(
+            child: Text(
+              widget.meal.weekName,
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          )
+        ],
+      ),
     );
     return Scaffold(
       appBar: appBar,
       body: StreamBuilder<DocumentSnapshot>(
-        stream: MealsService.email(
-                    email: widget.meal.email,
-                    startingDate: widget.meal.date,
-                    dayT: widget.meal.day,
-                    week: widget.meal.weekName)
-                .listMeal,
-        builder: (context, snapshot) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Card(
-                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                    color: Colors.white,
-                    elevation: 3,
-                    child: InkWell(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Breakfast",
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
+          stream: MealsService.email(
+                  email: widget.meal.email,
+                  startingDate: widget.meal.date,
+                  dayT: widget.meal.day,
+                  week: widget.meal.weekName)
+              .listMeal,
+          builder: (context, snapshot) {
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Card(
+                      margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                      color: Colors.white,
+                      elevation: 3,
+                      child: InkWell(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Breakfast",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(snapshot.data['breakfast'] ?? 'Add Meal'),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                      snapshot.data['breakfast'] ?? 'Add Meal'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditMeals(
+                                        meal: widget.meal,
+                                        prevMeals: snapshot.data['breakfast'],
+                                        number: 1,
+                                      )));
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['breakfast'], number: 1,)));
-                      },
                     ),
-                  ),
-                  Card(
-                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                    color: Colors.white,
-                    elevation: 3,
-                    child: InkWell(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Lunch",
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
+                    Card(
+                      margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                      color: Colors.white,
+                      elevation: 3,
+                      child: InkWell(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Lunch",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(snapshot.data['lunch'] ?? 'Add Meal'),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(snapshot.data['lunch'] ?? 'Add Meal'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditMeals(
+                                        meal: widget.meal,
+                                        prevMeals: snapshot.data['lunch'],
+                                        number: 2,
+                                      )));
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['lunch'], number: 2,)));
-                      },
                     ),
-                  ),
-                  Card(
-                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                    color: Colors.white,
-                    elevation: 3,
-                    child: InkWell(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Snacks",
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
+                    Card(
+                      margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                      color: Colors.white,
+                      elevation: 3,
+                      child: InkWell(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Snacks",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(snapshot.data['snacks'] ?? 'Add Meal'),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(snapshot.data['snacks'] ?? 'Add Meal'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditMeals(
+                                        meal: widget.meal,
+                                        prevMeals: snapshot.data['snacks'],
+                                        number: 3,
+                                      )));
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['snacks'], number: 3,)));
-                      },
                     ),
-                  ),
-                  Card(
-                    margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                    color: Colors.white,
-                    elevation: 3,
-                    child: InkWell(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Dinner",
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                              ],
+                    Card(
+                      margin: EdgeInsets.fromLTRB(10, 20, 10, 0),
+                      color: Colors.white,
+                      elevation: 3,
+                      child: InkWell(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    "Dinner",
+                                    style: TextStyle(fontSize: 24),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(snapshot.data['dinner'] ?? 'Add Meal'),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(snapshot.data['dinner'] ?? 'Add Meal'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditMeals(
+                                        meal: widget.meal,
+                                        prevMeals: snapshot.data['dinner'],
+                                        number: 4,
+                                      )));
+                        },
                       ),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditMeals(meal: widget.meal, prevMeals: snapshot.data['dinner'], number: 4,)));
-                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-      ),
+            );
+          }),
     );
   }
 }
