@@ -268,6 +268,7 @@ class _SubListState extends State<SubList> {
                       child: Column(
                         children: <Widget>[
                           TextField(
+                            autofocus: true,
                             cursorColor: Colors.lightGreen,
                             decoration: InputDecoration(
                                 labelText: 'Item',
@@ -356,7 +357,7 @@ class _SubListState extends State<SubList> {
                 builder: (context, snapshot) {
                   if (snapshot != null &&
                       snapshot.data != null &&
-                      snapshot.data.documents != null) {
+                      snapshot.data.documents != null && snapshot.data.documents.length != 0) {
                     var itemList = snapshot.data.documents;
                     return ListView.builder(
                         itemCount: itemList.length,
@@ -390,7 +391,29 @@ class _SubListState extends State<SubList> {
                           );
                         });
                   } else {
-                    return Container();
+                    return Container(
+                       color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Add items here', style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.lightGreen,
+                      ),
+                    ),
+                    Icon(Icons.arrow_right , color: Colors.lightGreen, size: 45.0,)
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  )
+                ],
+              ),
+                    );
                   }
                 }),
           ),

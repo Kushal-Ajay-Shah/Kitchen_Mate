@@ -59,6 +59,7 @@ class _ShoppingListState extends State<ShoppingList> {
                     ),
                     content: SingleChildScrollView(
                       child: TextField(
+                        autofocus: true,
                         cursorColor: Colors.lightGreen,
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
@@ -99,7 +100,7 @@ class _ShoppingListState extends State<ShoppingList> {
             stream: DatabaseService.email(email: userEmail.email, p: input)
                 .listData,
             builder: (context, snapshot) {
-              if (snapshot.data != null && snapshot.data.documents != null) {
+              if (snapshot.data != null && snapshot.data.documents != null && snapshot.data.documents.length != 0) {
                 var list = snapshot.data.documents;
                 return ListView.builder(
                     itemCount: list.length,
@@ -134,7 +135,29 @@ class _ShoppingListState extends State<ShoppingList> {
                       );
                     });
               } else {
-                return Container();
+                return Container(
+                  color: Colors.black12,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Add List title here', style: TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.lightGreen,
+                      ),
+                    ),
+                    Icon(Icons.arrow_right , color: Colors.lightGreen, size: 45.0,)
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  )
+                ],
+              ),
+                );
               }
             }));
   }
