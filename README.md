@@ -61,7 +61,7 @@ the apk can be installed from
 [this](drive link)
 else
 ### Prerequisites
-*Flutter SDK
+* Flutter SDK
 ### Installation
 1. Clone the repo
 ```sh
