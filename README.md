@@ -57,7 +57,7 @@ This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your
               |____shared
 ```
 ## Getting Started
-the apk can be installed from [this](drive link)
+the apk can be installed from *[this](drive link)
 else
 ### Prerequisites
 *Flutter SDK
@@ -74,7 +74,7 @@ flutter install
 ```
 ## Results and Demo  
 [**result screenshots**](https://result.png)  
-![**result gif or video**](https://result.gif)  
+[**result gif or video**](https://result.gif)  
 
 
 ## Future Work
@@ -82,7 +82,8 @@ flutter install
 - [ ] Meal Planning suggestions based on the primary diet
 - [ ] Shopping list automatic suggestions
 - [ ] Shopping reminders
-- [ ]Speech input
+- [ ] Speech input
+
 ## Troubleshooting
 ```
 flutter clean
