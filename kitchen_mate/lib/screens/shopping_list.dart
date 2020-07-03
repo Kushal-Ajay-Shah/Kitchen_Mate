@@ -100,63 +100,76 @@ class _ShoppingListState extends State<ShoppingList> {
             stream: DatabaseService.email(email: userEmail.email, p: input)
                 .listData,
             builder: (context, snapshot) {
-              if (snapshot.data != null && snapshot.data.documents != null && snapshot.data.documents.length != 0) {
+              if (snapshot.data != null &&
+                  snapshot.data.documents != null &&
+                  snapshot.data.documents.length != 0) {
                 var list = snapshot.data.documents;
                 return ListView.builder(
                     itemCount: list.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Dismissible(
-                        key: Key(list[index]['tittle']),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SubList(
-                                      listName:
-                                          ShoppingListNameArg.withActualUser(
-                                              tittle: list[index]['tittle'],
-                                              email: list[index]['contributor'],
-                                              actualUser: userEmail.email),
-                                    )));
-                          },
-                          child: Card(
-                            child: ListTile(title: Text(list[index]['tittle'])),
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SubList(
+                                    listName:
+                                        ShoppingListNameArg.withActualUser(
+                                            tittle: list[index]['tittle'],
+                                            email: list[index]['contributor'],
+                                            actualUser: userEmail.email),
+                                  )));
+                        },
+                        child: Card(
+                          child: ListTile(
+                            title: Text(list[index]['tittle']),
+                            trailing: IconButton(
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.lightGreen,
+                              ),
+                              onPressed: () async {
+                                await DatabaseService.email(
+                                        email: userEmail.email,
+                                        p: list[index]['tittle'])
+                                    .deleteAllItems();
+                                await DatabaseService.email(
+                                        email: userEmail.email,
+                                        p: list[index]['tittle'])
+                                    .deleteList();
+                              },
+                            ),
                           ),
                         ),
-                        onDismissed: (left) async {
-                          await DatabaseService.email(
-                                  email: userEmail.email,
-                                  p: list[index]['tittle'])
-                              .deleteAllItems();
-                          await DatabaseService.email(
-                                  email: userEmail.email,
-                                  p: list[index]['tittle'])
-                              .deleteList();
-                        },
                       );
                     });
               } else {
                 return Container(
                   color: Colors.black12,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
-                      Text('Add List title here', style: TextStyle(
-                        fontSize: 25.0,
-                        color: Colors.lightGreen,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Add List title here',
+                            style: TextStyle(
+                              fontSize: 25.0,
+                              color: Colors.lightGreen,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_right,
+                            color: Colors.lightGreen,
+                            size: 45.0,
+                          )
+                        ],
                       ),
-                    ),
-                    Icon(Icons.arrow_right , color: Colors.lightGreen, size: 45.0,)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                      )
                     ],
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  )
-                ],
-              ),
                 );
               }
             }));

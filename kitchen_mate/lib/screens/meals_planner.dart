@@ -175,9 +175,8 @@ class _MealsPlanner extends State<MealsPlanner> {
                                 .add(Duration(days: 6)))),
                           ],
                         ),
-                        trailing: FlatButton(
-                          padding: EdgeInsets.all(0),
-                          child: Icon(
+                        trailing: IconButton(
+                          icon: Icon(
                             Icons.clear,
                             color: Colors.lightGreen,
                           ),
