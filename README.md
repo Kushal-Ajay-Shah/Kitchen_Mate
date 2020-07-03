@@ -57,7 +57,8 @@ This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your
               |____shared
 ```
 ## Getting Started
-the apk can be installed from *[this](drive link)
+the apk can be installed from 
+[this](drive link)
 else
 ### Prerequisites
 *Flutter SDK
@@ -67,7 +68,7 @@ else
 git clone https://github.com/Kushal-Ajay-Shah/SIMPLE-MINDS.git
 ```
 ## Usage
-*install the apk
+* install the apk
 or
 ```
 flutter install
