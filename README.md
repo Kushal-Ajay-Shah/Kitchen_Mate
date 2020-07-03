@@ -22,7 +22,6 @@
   * [Prerequisites](#prerequisites)
   * [Installation](#installation)
 * [Usage](#usage)
-* [Results and Demo](#results-and-demo)
 * [Future Work](#future-work)
 * [Troubleshooting](#troubleshooting)
 * [Acknowledgements and Resources](#acknowledgements-and-resources)
@@ -34,7 +33,7 @@
 ### Description
 This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your shopping lists along with the prices of the items which aids in your budget estimation.Users can even access their list from anywhere in the world and at anytime without data being lost.The user can also share their lists with multiple users.The meal planning helps you to plan your weekly meals and access those easily. 
 * GitHub repo link: [Link to repository](https://github.com/Kushal-Ajay-Shah/SIMPLE-MINDS)
-* Drive link: [Drive link here](https://drive.google.com/)
+* Drive link: [Drive link here](https://drive.google.com/folderview?id=1cew7Gx7TaQQLd6WRUtlzo6YmNlPBTQ5a)
 
 ### Tech Stack
 * [Flutter](https://flutter.dev/)
@@ -75,10 +74,6 @@ or
 ```
 flutter install
 ```
-## Results and Demo   
-[**result gif or video**](https://result.gif)  
-
-
 ## Future Work
 - [ ] Price Comparer in the shopping list for online stores 
 - [ ] Meal Planning suggestions based on the primary diet
