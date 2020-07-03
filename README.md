@@ -28,7 +28,7 @@
 * [Acknowledgements and Resources](#acknowledgements-and-resources)
 
 ## About The Project
-<img src="screenshots/Page_1.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_9.png" height = 450/>
+<img src="screenshots/Page_1.png" height = 450/> <img src="screenshots/Page_3.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_5.png" height = 450/> <img src="screenshots/Page_9.png" height = 450/>
  
 
 ### Description
