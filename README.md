@@ -28,7 +28,8 @@
 * [Acknowledgements and Resources](#acknowledgements-and-resources)
 
 ## About The Project
-[![Product Name Screen Shot][product-screenshot]](https://example.com)  
+<img src="screenshots/Page_1.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_9.png" height = 450/>
+ 
 
 ### Description
 This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your shopping lists along with the prices of the items which aids in your budget estimation.Users can even access their list from anywhere in the world and at anytime without data being lost.The user can also share their lists with multiple users.The meal planning helps you to plan your weekly meals and access those easily. 
