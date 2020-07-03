@@ -142,55 +142,64 @@ class _MealsPlanner extends State<MealsPlanner> {
           email: userEmail.email,
         ).listWeek,
         builder: (context, snapshot) {
-          if (snapshot.data != null && snapshot.data.documents != null) {
+          if (snapshot.data != null &&
+              snapshot.data.documents != null &&
+              snapshot != null &&
+              snapshot.data.documents.length != 0) {
+            print('if');
             var weekList = snapshot.data.documents;
             return ListView.builder(
                 itemCount: weekList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Dismissible(
-                    key: Key(weekList[index]['weekName']),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => WeekDays(
-                                  weekNameArg: MealsUserArguement(
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WeekDays(
+                                weekNameArg: MealsUserArguement(
+                                  email: userEmail.email,
+                                  weekName: weekList[index]['weekName'],
+                                  startingDate:
+                                      weekList[index]['startingDate'].toDate(),
+                                ),
+                              )));
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(weekList[index]['weekName']),
+                        subtitle: Row(
+                          children: <Widget>[
+                            Text(DateFormat.MMMMd().format(
+                                weekList[index]['startingDate'].toDate())),
+                            Text(' - '),
+                            Text(DateFormat.MMMMd().format(weekList[index]
+                                    ['startingDate']
+                                .toDate()
+                                .add(Duration(days: 6)))),
+                          ],
+                        ),
+                        trailing: FlatButton(
+                          padding: EdgeInsets.all(0),
+                          child: Icon(
+                            Icons.clear,
+                            color: Colors.lightGreen,
+                          ),
+                          onPressed: () async {
+                            print('hi,in the meals planner');
+                            await MealsService.email(
                                     email: userEmail.email,
-                                    weekName: weekList[index]['weekName'],
+                                    week: weekList[index]['weekName'],
                                     startingDate: weekList[index]
                                             ['startingDate']
-                                        .toDate(),
-                                  ),
-                                )));
-                      },
-                      child: Card(
-                        child: ListTile(
-                          title: Text(weekList[index]['weekName']),
-                          subtitle: Row(
-                            children: <Widget>[
-                              Text(DateFormat.MMMMd().format(
-                                  weekList[index]['startingDate'].toDate())),
-                              Text(' - '),
-                              Text(DateFormat.MMMMd().format(weekList[index]
-                                      ['startingDate']
-                                  .toDate()
-                                  .add(Duration(days: 6)))),
-                            ],
-                          ),
+                                        .toDate())
+                                .deleteWeek(weekList[index]['weekName']);
+                          },
                         ),
                       ),
                     ),
-                    onDismissed: (left) async {
-                      print('hi,in the meals planner');
-                      await MealsService.email(
-                              email: userEmail.email,
-                              week: weekList[index]['weekName'],
-                              startingDate:
-                                  weekList[index]['startingDate'].toDate())
-                          .deleteWeek(weekList[index]['weekName']);
-                    },
                   );
                 });
           } else {
+            print('else');
             return Container();
           }
         },
