@@ -5,8 +5,8 @@
 ## Team members
 * KUSHAL SHAH - shahkushal0602@gmail.com
 * Dhruvi Doshi - drdoshi29@gmail.com
-* HARSH SHAH - Email
-* ABHISHEK JOSHI - Email
+* HARSH SHAH - shahh2773@gmail.com
+* ABHISHEK JOSHI - abhishekmrunaljoshi@gmail.com
 
 ## Mentors
 * Gaurav Sharma
@@ -43,19 +43,20 @@ This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your
 ### File Structure
 ```
 .
-|___screenshots
 |___kitchen_mate
-        |____assets
-        |____pubspec.yaml
-        |____android
-        |____ios
-        |____test
-        |____lib
-              |____components
-              |____models
-              |____screen
-              |____services
-              |____shared
+|        |____assets
+|        |____images
+|        |____pubspec.yaml
+|        |____android
+|        |____ios
+|        |____test
+|        |____lib
+|              |____components
+|              |____models
+|              |____screen
+|              |____services
+|              |____shared
+|___screenshots
 ```
 ## Getting Started
 the apk can be installed from 
@@ -74,8 +75,7 @@ or
 ```
 flutter install
 ```
-## Results and Demo  
-[**result screenshots**](https://result.png)  
+## Results and Demo   
 [**result gif or video**](https://result.gif)  
 
 
