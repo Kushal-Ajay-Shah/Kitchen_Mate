@@ -144,9 +144,7 @@ class _MealsPlanner extends State<MealsPlanner> {
         builder: (context, snapshot) {
           if (snapshot.data != null &&
               snapshot.data.documents != null &&
-              snapshot != null &&
               snapshot.data.documents.length != 0) {
-            print('if');
             var weekList = snapshot.data.documents;
             return ListView.builder(
                 itemCount: weekList.length,
@@ -199,8 +197,35 @@ class _MealsPlanner extends State<MealsPlanner> {
                   );
                 });
           } else {
-            print('else');
-            return Container();
+            return Container(
+              color: Colors.black12,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Add Week here',
+                        style: TextStyle(
+                          fontSize: 25.0,
+                          color: Colors.lightGreen,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_right,
+                        color: Colors.lightGreen,
+                        size: 45.0,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  )
+                ],
+              ),
+            );
           }
         },
       ),
