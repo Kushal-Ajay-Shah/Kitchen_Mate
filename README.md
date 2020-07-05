@@ -27,7 +27,7 @@
 * [Acknowledgements and Resources](#acknowledgements-and-resources)
 
 ## About The Project
-<img src="screenshots/Page_1.png" height = 450/> <img src="screenshots/Page_3.png" height = 450/> <img src="screenshots/Page_4.png" height = 450/> <img src="screenshots/Page_5.png" height = 450/> <img src="screenshots/Page_9.png" height = 450/>
+<img src="https://github.com/Kushal-Ajay-Shah/Kitchen_Mate/blob/master/screenshots/Page_1.png" height = 450/> <img src="https://github.com/Kushal-Ajay-Shah/Kitchen_Mate/blob/master/screenshots/Page_3.png" height = 450/> <img src="https://github.com/Kushal-Ajay-Shah/Kitchen_Mate/blob/master/screenshots/Page_4.png" height = 450/> <img src="https://github.com/Kushal-Ajay-Shah/Kitchen_Mate/blob/master/screenshots/Page_5.png" height = 450/> <img src="https://github.com/Kushal-Ajay-Shah/Kitchen_Mate/blob/master/screenshots/Page_9.png" height = 450/>
  
 
 ### Description
@@ -59,7 +59,7 @@ This is a Flutter based app,a perfect kitchen mate.It helps you to maintain your
 ```
 ## Getting Started
 the apk can be installed from 
-[this](drive link)
+[this](https://drive.google.com/folderview?id=1cew7Gx7TaQQLd6WRUtlzo6YmNlPBTQ5a)
 else
 ### Prerequisites
 * Flutter SDK
